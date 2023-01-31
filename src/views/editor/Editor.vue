@@ -187,3 +187,141 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.wrap {
+  width: 100%;
+  height: 100vh;
+  background: white;
+}
+
+.wrap .write-header {
+  width: 100%;
+  height: 64px;
+  padding: 0 16px;
+}
+
+.wrap .write-header .header-left {
+    float: left;
+  width: 60%;
+  max-width: 80%;
+  height: 64px;
+}
+
+.wrap .write-header .header-left input[type="text"] {
+  max-width: 100%;
+  height: 64px;
+  font-size: 24px;
+  outline: none;
+  border: none;
+  font-weight: 700;
+}
+
+.wrap .write-header .header-right {
+    position: relative;
+    float: right;
+    margin-top: 15px;
+}
+
+
+.wrap .write-header .header-right .panel {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 6666;
+  width: 336px;
+  padding: 24px;
+  white-space: nowrap;
+  color: #909090;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 2px;
+  box-shadow: 0 1px 2px #f1f1f1;
+  margin-top: 14px;
+}
+
+.wrap .write-header .header-right .panel::before {
+  content: "";
+  position: absolute;
+  margin-left: -0.5rem;
+  top: -0.6rem;
+  left: 78%;
+  width: 1rem;
+  height: 1rem;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-right: none;
+  border-bottom: none;
+  transform: rotate(45deg);
+}
+
+.wrap .write-header .header-right .panel > h3 {
+  opacity: 0.8;
+  margin-bottom: 14px;
+}
+
+.wrap .write-header .header-right .panel h4 {
+  font-size: 16px;
+  font-weight: normal;
+  margin-bottom: 12px;
+}
+
+.wrap .write-header .header-right .panel .up {
+  margin-bottom: 8px;
+}
+
+.wrap .write-header .header-right .panel .up span {
+  display: inline-block;
+  width: 250px;
+  text-overflow: 250px;
+  margin-bottom: 5px;
+}
+
+.wrap .write-header .header-right .panel .header-img {
+  width: 72px;
+  height: 72px;
+  margin-right: 12px;
+  object-fit: cover;
+}
+
+.wrap .write-header .header-right .panel li {
+  margin: 0 5px 12px 0;
+  font-size: 14px;
+  white-space: nowrap;
+  border: 1px solid #f1f1f1;
+  border-radius: 2px;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+
+.wrap .write-header .header-right .panel li:hover {
+  border-color: rgba(0, 127, 255, 0.15);
+  background-color: rgba(0, 127, 255, 0.05);
+}
+
+.wrap .write-header .header-right .panel .active {
+  border-color: rgba(0, 127, 255, 0.15);
+  background-color: rgba(0, 127, 255, 0.05);
+}
+
+.wrap .write-header .header-right .tag-input {
+  padding: 5px 0;
+  width: 100%;
+  font-size: 0.9em;
+  border: none;
+  border-bottom: 1px solid #f1f1f1;
+  border-radius: 0;
+  outline: none;
+  color: #909090;
+}
+
+.wrap .write-header .header-right .btn {
+  margin-top: 10px;
+}
+
+.v-note-wrapper{
+    min-height: 100%;
+    max-height: 100%;
+}
+
+</style>
