@@ -14,6 +14,9 @@ import format from 'date-fns/format'
 import '@/permission'
 import relativeTime from 'dayjs/plugin/relativeTime';
 
+import mavonEditor from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
+
 // 国际化
 import 'dayjs/locale/zh-cn'
 const dayjs = require('dayjs');
@@ -32,6 +35,7 @@ Vue.filter('date', (date) => {
 
 Vue.use(Buefy)
 Vue.use(ElementUI);
+Vue.use(mavonEditor)
 
 Vue.config.productionTip = false
 

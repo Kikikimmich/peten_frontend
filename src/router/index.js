@@ -22,6 +22,12 @@ const routes = [
     component: () => import("@/views/auth/Login"),
     meta: { title: "登录" },
   },
+  // 文章
+  {
+    path: "/write",
+    name: "Write",
+    component: () => import("@/views/editor/Editor"),
+  },
   // 发布
   {
     name: "post-create",
