@@ -1,18 +1,18 @@
 import request from '@/utils/request'
 
-export function fetchCommentsByTopicId(topic_Id) {
+export function getCommentByArticleId(articleId) {
   return request({
-    url: '/comment/get_comments',
+    url: '/comment/get-comments',
     method: 'get',
     params: {
-      topicid: topic_Id
+      articleId: articleId
     }
   })
 }
 
 export function pushComment(data) {
   return request({
-    url: '/comment/add_comment',
+    url: '/comment/add',
     method: 'post',
     data: data
   })

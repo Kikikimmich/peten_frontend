@@ -41,7 +41,10 @@
 </template>
 
 <script>
+// 过时信息
 import { getTopic, update } from "@/api/post";
+
+import { getDetail } from "@/api/article";
 import Vditor from "vditor";
 import "vditor/dist/index.css";
 
@@ -71,10 +74,17 @@ export default {
         },
       });
     },
+    // fetchTopic() {
+    //   getTopic(this.$route.params.id).then((value) => {
+    //     this.topic = value.data.topic;
+    //     this.tags = value.data.tags.map(tag => tag.name);
+    //     this.renderMarkdown(this.topic.content);
+    //   });
+    // },
     fetchTopic() {
-      getTopic(this.$route.params.id).then((value) => {
-        this.topic = value.data.topic;
-        this.tags = value.data.tags.map(tag => tag.name);
+      getDetail(this.$route.params.id).then((res) => {
+        this.topic = res.data;
+        this.tags = '';
         this.renderMarkdown(this.topic.content);
       });
     },

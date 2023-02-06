@@ -52,6 +52,15 @@ const routes = [
     component: () => import("@/views/post/Detail"),
     meta: { title: "详情" },
   },
+
+ // 详情
+ {
+  name: "article-detail",
+  path: "/article/:id",
+  component: () => import("@/views/article/Detail"),
+  meta: { title: "详情" },
+},
+
   {
     name: 'tag',
     path: '/tag/:name',

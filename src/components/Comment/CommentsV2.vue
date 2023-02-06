@@ -23,11 +23,11 @@
         <div v-for="(item,i) in comments" :key="i" class="author-title reply-father">
             <el-avatar class="header-img" :size="40" :src="item.headImg"></el-avatar>
             <div class="author-info">
-                <span class="author-name">{{item.name}}</span>
-                <span class="author-time">{{item.time}}</span>
+                <span class="author-name">{{item.from.userName}}</span>
+                <span class="author-time">{{item.createTime}}</span>
             </div>
             <div class="icon-btn">
-                <span @click="showReplyInput(i,item.name,item.id)">
+                <span @click="showReplyInput(i,item.from.userName,item.id)">
                     <i class="iconfont el-icon-s-comment"></i>{{item.commentNum}}</span>
                 <i class="iconfont el-icon-caret-top" @click="operateLike(item.id)"></i>{{item.like}}
                 <i class="iconfont el-icon-caret-bottom" @click="operateLike(item.id)"></i>{{item.like}}
@@ -43,34 +43,34 @@
             </div>
             <div class="talk-box">
                 <p>
-                    <span class="reply">{{item.comment}}</span>
+                    <span class="reply">{{item.content}}</span>
                 </p>
             </div>
             <div class="reply-box">
                 <div v-for="(reply,j) in item.reply" :key="j" class="author-title">
-                    <el-avatar class="header-img" :size="40" :src="reply.fromHeadImg"></el-avatar>
+                    <el-avatar class="header-img" :size="40" :src="reply.from.avatar"></el-avatar>
                     <div class="author-info">
-                        <span class="author-name">{{reply.from}}</span>
-                        <span class="author-time">{{reply.time}}</span>
+                        <span class="author-name">{{reply.from.userName}}</span>
+                        <span class="author-time">{{reply.createTime}}</span>
                     </div>
                     <div class="icon-btn">
-                        <span @click="showReplyInput(i,reply.from,reply.fromId)"><i class="iconfont el-icon-s-comment"></i>{{reply.commentNum}}</span>
-                        <i class="iconfont el-icon-caret-top" @click="operateLike(reply.fromId)" style="color: lightgreen;"></i>{{reply.like}}
-                        <i class="iconfont el-icon-caret-bottom" @click="operateLike(reply.fromId)"></i>{{reply.like}}
+                        <span @click="showReplyInput(i,reply.from.userName,reply.id)"><i class="iconfont el-icon-s-comment"></i>{{reply.commentNum}}</span>
+                        <i class="iconfont el-icon-caret-top" @click="operateLike(reply.from.id)" style="color: lightgreen;"></i>{{reply.like}}
+                        <i class="iconfont el-icon-caret-bottom" @click="operateLike(reply.from.id)"></i>{{reply.like}}
                         <el-dropdown style="float: right;">
                             <span class="el-dropdown-link">
                                 <i class="iconfont el-icon-more"></i>
                             </span>
                             <el-dropdown-menu slot="dropdown">
-                                <el-dropdown-item ><div @click="block(reply.fromId)">拉黑</div></el-dropdown-item>
-                                <el-dropdown-item ><div @click="report(reply.fromId)">举报</div></el-dropdown-item>
+                                <el-dropdown-item ><div @click="block(reply.from.id)">拉黑</div></el-dropdown-item>
+                                <el-dropdown-item ><div @click="report(reply.from.id)">举报</div></el-dropdown-item>
                             </el-dropdown-menu>
                         </el-dropdown>
                     </div>
                     <div class="talk-box">
                         <p>
-                            <span>{{reply.to}}:</span>
-                            <span class="reply">{{reply.comment}}</span>
+                            <!-- <span>{{reply.to.userName}}:</span> -->
+                            <span class="reply">{{reply.content}}</span>
                         </p>
                     </div>
                     <div class="reply-box">
@@ -81,11 +81,11 @@
             <div v-show="_inputShow(i)" class="my-reply my-comment-reply">
                 <el-avatar class="header-img" :size="40" :src="myHeader"></el-avatar>
                 <div class="reply-info">
-                    <div tabindex="0" contenteditable="true" spellcheck="false" :placeholder="to"
+                    <div tabindex="0" contenteditable="true" spellcheck="false" :placeholder="replyTo.userName"
                          @input="onDivInput($event)" class="reply-input reply-comment-input"></div>
                 </div>
                 <div class=" reply-btn-box">
-                    <el-button class="reply-btn" size="medium" @click="sendCommentReply(i)" type="primary">发表评论
+                    <el-button class="reply-btn" size="medium" @click="sendCommentReply(i)" type="primary">回复
                     </el-button>
                 </div>
             </div>
@@ -95,6 +95,10 @@
 
 <!--https://blog.csdn.net/zLanaDelRey/article/details/100997792-->
 <script>
+
+import { getCommentByArticleId, pushComment } from '@/api/comment'
+import { mapGetters } from 'vuex'
+
     const clickoutside = {
         // 初始化指令
         bind(el, binding, vnode) {
@@ -128,6 +132,19 @@
         name: 'ArticleComment',
         data() {
             return {
+                comments :[],     
+                articleId: '',
+
+                replyTo : {
+                    // 被回复评论的is
+                    id: "",
+                    // 被回复的id
+                    userName: ""
+                },
+
+                // 展示回复输入框
+                // _showReplyInput: false,
+
                 btnShow: false,
                 index: '0',
                 replyComment: '',
@@ -136,85 +153,79 @@
                 myId: 19870621,
                 to: '',
                 toId: -1,
-                comments: [
-                    {
-                        name: 'Lana Del Rey',
-                        id: 19870621,
-                        headImg: 'https://ae01.alicdn.com/kf/Hd60a3f7c06fd47ae85624badd32ce54dv.jpg',
-                        comment: '我发布一张新专辑Norman Fucking Rockwell,大家快来听啊',
-                        time: '2019年9月16日 18:43',
-                        commentNum: 2,
-                        like: 15,
-                        inputShow: false,
-                        reply: [
-                            {
-                                from: 'Taylor Swift',
-                                fromId: 19891221,
-                                fromHeadImg: 'https://ae01.alicdn.com/kf/H94c78935ffa64e7e977544d19ecebf06L.jpg',
-                                to: 'Lana Del Rey',
-                                toId: 19870621,
-                                comment: '我很喜欢你的新专辑！！',
-                                time: '2019年9月16日 18:43',
-                                commentNum: 1,
-                                like: 15,
-                                inputShow: false
-                            },
-                            {
-                                from: 'Ariana Grande',
-                                fromId: 1123,
-                                fromHeadImg: 'https://ae01.alicdn.com/kf/Hf6c0b4a7428b4edf866a9fbab75568e6U.jpg',
-                                to: 'Lana Del Rey',
-                                toId: 19870621,
-                                comment: '别忘记宣传我们的合作单曲啊',
-                                time: '2019年9月16日 18:43',
-                                commentNum: 0,
-                                like: 5,
-                                inputShow: false
+                // comments: [
+                //     {
+                //         name: 'Taylor Swift',
+                //         id: 19891221,
+                //         headImg: 'https://ae01.alicdn.com/kf/H94c78935ffa64e7e977544d19ecebf06L.jpg',
+                //         comment: '我发行了我的新专辑Lover',
+                //         time: '2019年9月16日 18:43',
+                //         commentNum: 1,
+                //         like: 5,
+                //         inputShow: false,
+                //         reply: [
+                //             {
+                //                 from: 'Lana Del Rey',
+                //                 fromId: 19870621,
+                //                 fromHeadImg: 'https://ae01.alicdn.com/kf/Hd60a3f7c06fd47ae85624badd32ce54dv.jpg',
+                //                 to: 'Taylor Swift',
+                //                 toId: 19891221,
+                //                 comment: '新专辑和speak now 一样棒！',
+                //                 time: '2019年9月16日 18:43',
+                //                 commentNum: 25,
+                //                 like: 5,
+                //                 inputShow: false
 
-                            }
-                        ]
-                    },
-                    {
-                        name: 'Taylor Swift',
-                        id: 19891221,
-                        headImg: 'https://ae01.alicdn.com/kf/H94c78935ffa64e7e977544d19ecebf06L.jpg',
-                        comment: '我发行了我的新专辑Lover',
-                        time: '2019年9月16日 18:43',
-                        commentNum: 1,
-                        like: 5,
-                        inputShow: false,
-                        reply: [
-                            {
-                                from: 'Lana Del Rey',
-                                fromId: 19870621,
-                                fromHeadImg: 'https://ae01.alicdn.com/kf/Hd60a3f7c06fd47ae85624badd32ce54dv.jpg',
-                                to: 'Taylor Swift',
-                                toId: 19891221,
-                                comment: '新专辑和speak now 一样棒！',
-                                time: '2019年9月16日 18:43',
-                                commentNum: 25,
-                                like: 5,
-                                inputShow: false
-
-                            }
-                        ]
-                    },
-                    {
-                        name: 'Norman Fucking Rockwell',
-                        id: 20190830,
-                        headImg: 'https://ae01.alicdn.com/kf/Hdd856ae4c81545d2b51fa0c209f7aa28Z.jpg',
-                        comment: 'Plz buy Norman Fucking Rockwell on everywhere',
-                        time: '2019年9月16日 18:43',
-                        commentNum: 0,
-                        like: 5,
-                        inputShow: false,
-                        reply: []
-                    },
-                ]
+                //             }
+                //         ]
+                //     },
+                //     {
+                //         name: 'Norman Fucking Rockwell',
+                //         id: 20190830,
+                //         headImg: 'https://ae01.alicdn.com/kf/Hdd856ae4c81545d2b51fa0c209f7aa28Z.jpg',
+                //         comment: 'Plz buy Norman Fucking Rockwell on everywhere',
+                //         time: '2019年9月16日 18:43',
+                //         commentNum: 0,
+                //         like: 5,
+                //         inputShow: false,
+                //         reply: []
+                //     },
+                // ]
             }
         },
+        computed: {
+            ...mapGetters([
+            'token','user'
+            ])
+        },
         directives: {clickoutside},
+        mounted() {
+            this.getArticleId()
+            this.fetchComments()
+        },
         methods: {
+            async getArticleId(){
+                this.articleId = this.$route.params.id;
+            },
+            async fetchComments(){
+                getCommentByArticleId(this.articleId).then(res=>{
+                    let list = res.data.list;
+                    // 格式化时间
+                    list.forEach((comment)=> {
+                        comment.createTime = this.dateStr(new Date(comment.createTime));
+                        comment.inputShow = false;
+                        comment.reply.forEach((reply)=>{
+                            reply.createTime = this.dateStr(new Date(reply.createTime));
+                            reply.inputShow = false;
+                            if(!(reply.rootCommentId === comment.id)){
+                                reply.content = '回复@' + reply.to.userName + ':' + reply.content
+                            }
+                        })
+                    });
+                    // console.log(this.user)
+                    this.comments = list;
+                })
+            },
             // 拉黑
             block(id) {
                 // todo
@@ -254,13 +265,14 @@
                 this.comments[this.index].inputShow = false
                 this.index = i
                 this.comments[i].inputShow = true
-                this.to = "回复@" + name
-                this.toId = id
+
+                this.replyTo.userName = "回复@" + name
+                this.replyTo.id = id
             },
             _inputShow(i) {
                 return this.comments[i].inputShow
             },
-            sendComment() {
+            async sendComment() {
                 if (!this.replyComment) {
                     this.$message({
                         showClose: true,
@@ -268,23 +280,34 @@
                         message: '评论不能为空'
                     })
                 } else {
-                    let a = {}
+                    // let a = {}
                     let input = document.getElementById('replyInput')
-                    let timeNow = new Date().getTime();
-                    let time = this.dateStr(timeNow);
-                    a.name = this.myName
-                    a.comment = this.replyComment
-                    a.headImg = this.myHeader
-                    a.time = time
-                    a.commentNum = 0
-                    a.like = 0
-                    this.comments.push(a)
+                    // let timeNow = new Date().getTime();
+                    // let time = this.dateStr(timeNow);
+                    // a.name = this.myName
+                    // a.comment = this.replyComment
+                    // a.headImg = this.myHeader
+                    // a.time = time
+                    // a.commentNum = 0
+                    // a.like = 0
+                    // this.comments.push(a)
+                
+                    let comment = {};
+                    comment.content =  this.replyComment;
+                    comment.articleId = this.articleId;
+                    comment.rootComment = null;
+                    comment.type = 1;
+
+                    // 发送请求
+                    await pushComment(comment);
+
                     this.replyComment = ''
                     input.innerHTML = '';
 
+                    this.fetchComments()
                 }
             },
-            sendCommentReply(i) {
+            async sendCommentReply(i) {
                 if (!this.replyComment) {
                     this.$message({
                         showClose: true,
@@ -292,17 +315,28 @@
                         message: '评论不能为空'
                     })
                 } else {
-                    let a = {}
-                    let timeNow = new Date().getTime();
-                    let time = this.dateStr(timeNow);
-                    a.from = this.myName
-                    a.to = this.to
-                    a.fromHeadImg = this.myHeader
-                    a.comment = this.replyComment
-                    a.time = time
-                    a.commentNum = 0
-                    a.like = 0
-                    this.comments[i].reply.push(a)
+                    // let a = {}
+                    // let timeNow = new Date().getTime();
+                    // let time = this.dateStr(timeNow);
+                    // a.from = this.myName
+                    // a.to = this.to
+                    // a.fromHeadImg = this.myHeader
+                    // a.comment = this.replyComment
+                    // a.time = time
+                    // a.commentNum = 0
+                    // a.like = 0
+                    // this.comments[i].reply.push(a)
+
+
+                    let comment = {};
+                    comment.content =  this.replyComment;
+                    comment.articleId = this.articleId;
+                    comment.rootComment = this.replyTo.id;
+                    comment.type = 1;
+                    // 发送请求
+                    await pushComment(comment);
+                    this.fetchComments()
+
                     this.replyComment = ''
                     document.getElementsByClassName("reply-comment-input")[i].innerHTML = ""
 

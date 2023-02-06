@@ -4,7 +4,7 @@ import request from "@/utils/request";
 
 export function articreInsert(query) {
   return request({
-    url: "/insert",
+    url: "/article/add",
     method: "post",
     data: query,
   });
@@ -14,7 +14,7 @@ export function articreInsert(query) {
 
 export function remove(query) {
   return request({
-    url: "/delete",
+    url: "/article/delete",
     method: "get",
     params: query,
   });
@@ -24,7 +24,7 @@ export function remove(query) {
 
 export function update(query) {
   return request({
-    url: "/update",
+    url: "/article/update",
     method: "post",
     data: query,
   });
@@ -34,7 +34,7 @@ export function update(query) {
 
 export function detail(query) {
   return request({
-    url: "/detail",
+    url: "/article/detail",
     method: "get",
     params: query,
   });

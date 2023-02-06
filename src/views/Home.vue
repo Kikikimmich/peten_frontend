@@ -17,9 +17,11 @@ import { getBillboard } from "@/api/billboard";
 import CardBar from "@/views/card/CardBar"
 import PostList from '@/views/post/Index'
 
+import ArticleList from '@/views/article/Index'
+
 export default {
   name: "Home",
-  components: {CardBar, TopicList: PostList},
+  components: {CardBar, TopicList: ArticleList},
   data() {
     return {
       billboard: {

@@ -4,7 +4,7 @@
         <div class="header-left">
           <input
             type="text"
-            v-model="form.blog_title"
+            v-model="form.title"
             placeholder="输入文章标题"
           />
         </div>
@@ -20,12 +20,12 @@
                 <el-image
                   class="header-img"
                   fit="cover"
-                  :src="form.blog_cover || defaultImg"
+                  :src="form.cover || defaultImg"
                 ></el-image>
                 <UploadImg :isLimit="false" @success="success"></UploadImg>
               </div>
             </div>
-            <div class="up">
+            <!-- <div class="up">
               <h4>BGM</h4>
               <div class="flex flex-direction">
                 <span>{{ form.BGM }}</span>
@@ -35,8 +35,8 @@
                   @success="successBGM"
                 ></UploadImg>
               </div>
-            </div>
-            <div>
+            </div> -->
+            <!-- <div>
               <h4>分类</h4>
               <ul class="flex">
                 <li
@@ -48,7 +48,7 @@
                   {{ item }}
                 </li>
               </ul>
-            </div>
+            </div> -->
             <div>
               <h4>标签</h4>
               <ul>
@@ -56,8 +56,8 @@
                   <input
                     class="tag-input"
                     type="text"
-                    v-model="form.blog_brief"
-                    placeholder="添加一个简介"
+                    v-model="form.tags"
+                    placeholder="添加标签"
                   />
                 </div>
               </ul>
@@ -71,7 +71,7 @@
         </div>
       </div>
       <MarkDown
-        :value="form.blog_content"
+        :value="form.content"
         class="flex-sub"
         :editable="true"
         :subfield="true"
@@ -93,19 +93,37 @@ export default {
   components: { MarkDown, UploadImg },
   data() {
     return {
-      form: {
-        blog_title: "",
-        blog_tag: "前端",
-        blog_cover: "",
-        blog_brief: "",
-        blog_content: "",
-        BGM: "",
-      },
+    //   form: {
+    //     blog_title: "",
+    //     blog_tag: "前端",
+    //     blog_cover: "",
+    //     blog_brief: "",
+    //     blog_content: "",
+    //     BGM: "",
+    //   },
+        form:{
+            title: '', // 标题
+            tags: [], // 标签
+            content: '', // 内容
+            cover: '' // 文章封面
+        },
       tag: ["前端", "后端", "其他"],
       tagIndex: 0,
       defaultImg: require("@/assets/image/default-avatar.svg"),
       isPanel: false,
       id: this.$route.query.id,
+
+      rules: {
+        title: [
+          { required: true, message: '请输入标题', trigger: 'blur' },
+          {
+            min: 1,
+            max: 25,
+            message: '长度在 1 到 25 个字符',
+            trigger: 'blur'
+          }
+        ]
+      }
     };
   },
   computed: {
@@ -127,55 +145,43 @@ export default {
     },
     tagTab(index) {
       this.tagIndex = index;
-      this.form.blog_tag = this.tag[index];
+      this.form.tag.push(this.tag[index]);
     },
     success(value) {
-      this.form.blog_cover = value;
+      this.form.cover = value;
     },
-    successBGM(value) {
-      this.form.BGM = value.realname;
-    },
+    // successBGM(value) {
+    //   this.form.BGM = value.realname;
+    // },
     publish() {
       this.isPanel = !this.isPanel;
     },
     change(value) {
-      this.form.blog_content = value;
+      this.form.content = value;
     },
     submit() {
-      if (this.form.blog_title == "") {
+      if (this.form.title == "") {
         notify.error("请填写标题", "top-left");
         return;
       }
-      if (this.form.blog_cover == "") {
+      if (this.form.cover == "") {
         notify.error("请上传封面图", "top-left");
         return;
       }
-      let form = {
-        blog_id: this.form.blog_id,
-        blog_title: this.form.blog_title,
-        blog_author: this.userInfo.user_name,
-        blog_brief: this.form.blog_brief,
-        blog_tag: this.form.blog_tag,
-        blog_content: this.form.blog_content,
-        blog_cover: this.form.blog_cover,
-        likeCount: this.form.likeCount,
-        commentCount: this.form.commentCount,
-        BGM: this.form.BGM,
-      };
-      console.log(form);
+      console.log(this.form);
       if (!this.id) {
-        articreInsert(form).then((res) => {
-          if (res.status === 1) {
+        articreInsert(this.form).then((res) => {
+          if (res.code === 200) {
             this.$message.success("发布成功");
-            this.$router.replace("/home");
+            this.$router.replace("/");
           } else {
             this.$message.error("发布失败");
           }
           this.publish();
         });
       } else {
-        update(form).then((res) => {
-          if (res.status === 1) {
+        update(this.form).then((res) => {
+          if (res.code === 200) {
             this.$message.success("更新成功");
             this.$router.back();
           } else {

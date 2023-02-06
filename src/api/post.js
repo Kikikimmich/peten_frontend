@@ -1,11 +1,11 @@
 import request from '@/utils/request'
 
 // 列表
-export function getList(pageNo, size, tab) {
+export function getList(page, size, tab) {
   return request(({
-    url: '/post/list',
+    url: '/article/list',
     method: 'get',
-    params: { pageNo: pageNo, size: size, tab: tab }
+    params: { page: page, pageSize: pageSize, tab: tab }
   }))
 }
 

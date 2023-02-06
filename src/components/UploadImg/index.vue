@@ -51,12 +51,12 @@ export default {
       /* realUpload */
       let form = new FormData();
       // 后端接受参数 ，可以接受多个参数
-      form.append("file", req.file);
+      form.append("source", req.file);
       realUpload(form)
         .then((res) => {
-          console.log(res.status);
-          if (res.status == 1) {
-            let data = this.type == "image" ? res.data.filename : res.data;
+          console.log(res.code);
+          if (res.code == 200) {
+            let data = this.type == "image" ? res.data : res.data;
             this.$emit("success", data);
           } else {
           }

@@ -81,7 +81,11 @@
 </template>
 
 <script>
+// 过时
 import { deleteTopic, getTopic } from '@/api/post'
+
+import { getDetail } from "@/api/article";
+
 import { mapGetters } from 'vuex'
 import Author from '@/views/post/Author'
 import Recommend from '@/views/post/Recommend'
@@ -119,13 +123,28 @@ export default {
       })
     },
     // 初始化
-    async fetchTopic() {
-      getTopic(this.$route.params.id).then(response => {
-        const { data } = response
-        document.title = data.topic.title
+    // async fetchTopic() {
+    //   getTopic(this.$route.params.id).then(response => {
+    //     const { data } = response
+    //     document.title = data.topic.title
 
-        this.topic = data.topic
-        this.tags = data.tags
+    //     this.topic = data.topic
+    //     this.tags = data.tags
+    //     this.topicUser = data.user
+    //     // this.comments = data.comments
+    //     this.renderMarkdown(this.topic.content)
+    //     this.flag = true
+    //   })
+    // },
+     // 初始化
+     async fetchTopic() {
+      getDetail(this.$route.params.id).then(response => {
+        const data = response.data
+        console.log(data)
+        document.title = data.title
+
+        this.topic = data
+        // this.tags = data.tags
         this.topicUser = data.user
         // this.comments = data.comments
         this.renderMarkdown(this.topic.content)
