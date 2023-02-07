@@ -45,21 +45,21 @@ const routes = [
       requireAuth: true
     }
   },
-  // 详情
+  // 商店
   {
-    name: "post-detail",
-    path: "/post/:id",
-    component: () => import("@/views/post/Detail"),
-    meta: { title: "详情" },
+    name: "shop-goods",
+    path: "/shop/goods",
+    component: () => import("@/views/shop/Goods"),
+    meta: { title: "商品" },
   },
 
- // 详情
- {
-  name: "article-detail",
-  path: "/article/:id",
-  component: () => import("@/views/article/Detail"),
-  meta: { title: "详情" },
-},
+  // 详情
+  {
+    name: "article-detail",
+    path: "/article/:id",
+    component: () => import("@/views/article/Detail"),
+    meta: { title: "详情" },
+  },
 
   {
     name: 'tag',

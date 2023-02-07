@@ -29,6 +29,10 @@ dayjs().locale('zh-cn').format() // use locale in a specific instance
 
 Vue.prototype.dayjs = dayjs;//可以全局使用dayjs
 
+// 全局使用$axios
+import Axios from 'axios';
+Vue.prototype.$axios = Axios;
+
 Vue.filter('date', (date) => {
   return format(new Date(date), 'yyyy-MM-dd')
 })

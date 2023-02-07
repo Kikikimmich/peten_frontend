@@ -25,7 +25,9 @@ export function upload(query) {
 
 export function realUpload(query) {
   return request({
-    url: "/file/upload-image-v2",
+    // 暂时不可用
+    // url: "/file/upload-image-v2",
+    url: "/file/upload-image",
     method: "post",
     headers: { "Content-Type": "multipart/form-data" },
     data: query,

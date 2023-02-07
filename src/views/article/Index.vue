@@ -134,11 +134,12 @@ export default {
   },
   methods: {
     init(tab) {
-      getList(this.page.page, this.page.pageSize, tab).then((response) => {
-        const { data } = response
-        this.page.page = data.page
-        this.page.totalRow = data.totalRow
-        this.page.pageSize = data.pageSize
+      getList(this.page.page, this.page.pageSize, tab).then((res) => {
+        // const { data } = response
+        let data = res.data;
+        this.page.page = data.pageInfo.page
+        this.page.totalRow = data.pageInfo.totalRow
+        this.page.pageSize = data.pageInfo.pageSize
         this.articleList = data.list
       })
     },

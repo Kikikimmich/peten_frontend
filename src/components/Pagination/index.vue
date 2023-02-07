@@ -6,7 +6,7 @@
       :page-size.sync="pageSize"
       :layout="layout"
       :page-sizes="pageSizes"
-      :total="totalRow"
+      :total="total"
       v-bind="$attrs"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
@@ -20,7 +20,7 @@ import {scrollTo} from "@/utils/scroll-to";
 export default {
   name: "Pagination",
   props: {
-    totalRow: {
+    total: {
       required: true,
       type: Number,
     },
@@ -35,7 +35,7 @@ export default {
     pageSizes: {
       type: Array,
       default() {
-        return [5, 10, 20, 30, 50];
+        return [10, 20, 30, 50];
       },
     },
     layout: {
