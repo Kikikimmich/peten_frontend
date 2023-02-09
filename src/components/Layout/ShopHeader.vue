@@ -4,7 +4,7 @@
       class="container is-white"
       :fixed-top="true"
     >
-      <template slot="brand">
+      <!-- <template slot="brand">
         <b-navbar-item tag="div">
           <img :src="doubaoImg" alt="logo">
         </b-navbar-item>
@@ -32,7 +32,7 @@
         >
           商城
         </b-navbar-item>
-      </template>
+      </template> -->
 
       <template slot="end">
         <b-navbar-item tag="div">
@@ -41,7 +41,7 @@
               v-model="searchKey"
               class="s_input"
               width="80%"
-              placeholder="搜索帖子、标签和用户"
+              placeholder="搜索商品"
               rounded
               clearable
               @keyup.enter.native="search()"
@@ -57,7 +57,7 @@
           </b-field>
         </b-navbar-item>
 
-        <b-navbar-item tag="div">
+        <!-- <b-navbar-item tag="div">
           <b-switch
             v-model="darkMode"
             passive-type="is-warning"
@@ -65,7 +65,7 @@
           >
             {{ darkMode ? "夜" : "日" }}
           </b-switch>
-        </b-navbar-item>
+        </b-navbar-item> -->
 
         <b-navbar-item
           v-if="token == null || token === ''"
@@ -113,50 +113,56 @@
           > 👋 退出登录
           </b-navbar-item>
         </b-navbar-dropdown>
+        
+        <div class="nav">
+          <ul>
+            <li>
+              <router-link to="/shop/order">我的订单</router-link>
+            </li>
+            <li>
+              <router-link to="/shop/collect">我的收藏</router-link>
+            </li>
+            <li :class="getNum > 0 ? 'shopCart-full' : 'shopCart'">
+              <router-link to="/shop/shoppingCart">
+                <i class="el-icon-shopping-cart-full"></i> 购物车
+                <span class="num">({{getNum}})</span>
+              </router-link>
+            </li>
+        </ul>
+
+        </div>
+       
       </template>
     </b-navbar>
   </header>
 </template>
 
 <script>
-import { disable as disableDarkMode, enable as enableDarkMode } from 'darkreader'
-import { getDarkMode, setDarkMode } from '@/utils/auth'
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'Header',
+  name: 'ShopHeader',
   data() {
     return {
-      logoUrl: require('@/assets/logo.png'),
-      doubaoImg: require('@/assets/image/doubao.png'),
       searchKey: '',
-      darkMode: false
+      // todo getNum
+      getNum: 0
     }
   },
   computed: {
     ...mapGetters(['token', 'user'])
   },
   watch: {
-    // 监听Theme模式
-    darkMode(val) {
-      if (val) {
-        enableDarkMode({})
-      } else {
-        disableDarkMode()
-      }
-      setDarkMode(this.darkMode)
-    }
+  
   },
   created() {
-    // 获取cookie中的夜间还是白天模式
-    this.darkMode = getDarkMode()
-    if (this.darkMode) {
-      enableDarkMode({})
-    } else {
-      disableDarkMode()
-    }
+    
   },
   methods: {
+    // getNum(){
+      
+    // },
+
     navToShop() {
       let { href } = this.$router.resolve({
         path: "/shop/goods"
@@ -191,5 +197,58 @@ export default {
 input {
   width: 80%;
   height: 86%;
+}
+
+
+.nav {
+  width: 1225px;
+  margin: 0 auto;
+}
+.nav ul {
+  float: right;
+  margin-right: 500px;
+}
+.nav li {
+  float: left;
+  height: 40px;
+  color: #b0b0b0;
+  font-size: 14px;
+  text-align: center;
+  line-height: 40px;
+  margin-left: 20px;
+}
+.nav .sep {
+  color: #b0b0b0;
+  font-size: 12px;
+  margin: 0 5px;
+}
+.nav li .el-button {
+  color: #b0b0b0;
+}
+.nav .el-button:hover {
+  color: #ff6700;
+}
+.nav li a {
+  color: #b0b0b0;
+}
+.nav a:hover {
+  color: #ff6700;
+}
+.nav .shopCart {
+  width: 120px;
+  background: #424242;
+}
+.nav .shopCart:hover {
+  background: #fff;
+}
+.nav .shopCart:hover a {
+  color: #ff6700;
+}
+.nav .shopCart-full {
+  width: 120px;
+  background: #fff;
+}
+.nav .shopCart-full a {
+  color: white;
 }
 </style>

@@ -1,7 +1,10 @@
 <template>
   <div>
-    <div class="mb-5">
+    <div class="mb-5" v-show="$route.meta.headerShow">
       <Header></Header>
+    </div>
+    <div v-show="$route.meta.shopHeaderShow">
+      <ShopHeader></ShopHeader>
     </div>
 
     <div class="container context">
@@ -16,11 +19,12 @@
 
 <script>
 import Header from "@/components/Layout/Header";
+import ShopHeader from "@/components/Layout/ShopHeader";
 import Footer from "@/components/Layout/Footer";
 
 export default {
   name: "App",
-  components: { Header, Footer },
+  components: { Header, Footer, ShopHeader },
 };
 </script>
 

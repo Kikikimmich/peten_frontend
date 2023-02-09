@@ -164,20 +164,6 @@ export default {
     },
     // 向后端请求分类列表数据
     fetchCategory() {
-      // this.$axios
-      //   .get("/product/get-category", {})
-      //   .then(res => {
-      //     const val = {
-      //       category_id: 0,
-      //       category_name: "全部"
-      //     };
-      //     const cate = res.data.category;
-      //     cate.unshift(val);
-      //     this.categoryList = cate;
-      //   })
-      //   .catch(err => {
-      //     return Promise.reject(err);
-      //   });
         getCategory().then(res => {
           const val = {
             id: 0,
@@ -211,7 +197,9 @@ export default {
       //   .catch(err => {
       //     return Promise.reject(err);
       //   });
-      getProduct(this.currentPage, this.pageSize, '').then((res)=>{
+      console.log(this.categoryID)
+      let type = this.categoryID.length == 0 ? '' : this.categoryID[0];
+      getProduct(this.currentPage, this.pageSize, type).then((res)=>{
         this.product = res.data.list;
         this.total = res.data.pageInfo.totalRow;
       })
@@ -260,6 +248,7 @@ export default {
 /* 分类标签CSS */
 .goods .nav {
   background-color: white;
+  margin-top: 10px;
 }
 .goods .nav .product-nav {
   width: 1225px;

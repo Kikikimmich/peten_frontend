@@ -8,6 +8,10 @@ const routes = [
     path: "/",
     name: "Home",
     component: () => import("@/views/Home"),
+    meta:{
+      headerShow: true,
+      footerShow: true
+    }
   },
   {
     path: "/register",
@@ -50,7 +54,50 @@ const routes = [
     name: "shop-goods",
     path: "/shop/goods",
     component: () => import("@/views/shop/Goods"),
-    meta: { title: "商品" },
+    meta: { 
+      title: "商品",
+      shopHeaderShow: true
+   },
+  },
+  // 商店-我的订单
+  {
+    name: "shop-order",
+    path: "/shop/order",
+    component: () => import("@/views/shop/Order"),
+    meta: { 
+      title: "商品",
+      shopHeaderShow: true
+   },
+  },
+   // 商店-我的收藏
+  {
+    name: "shop-collect",
+    path: "/shop/collect",
+    component: () => import("@/views/shop/Collect"),
+    meta: { 
+      title: "商品",
+      shopHeaderShow: true
+   },
+  },
+   // 商店-购物车
+   {
+    name: "shop-shopping-cart",
+    path: "/shop/shoppingCart",
+    component: () => import("@/views/shop/ShoppingCart"),
+    meta: { 
+      title: "商品",
+      shopHeaderShow: true
+   },
+  },
+  // 商品详情
+  {
+    name: "shop-goods-details",
+    path: "/shop/goods/details",
+    component: () => import("@/views/shop/Details"),
+    meta: { 
+      title: "商品",
+      shopHeaderShow: true
+    },
   },
 
   // 详情

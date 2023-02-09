@@ -10,10 +10,10 @@ export function getCategory() {
 }
 
 // 商品种类
-export function getProduct(page, pageSize, categoryID) {
+export function getProduct(page, pageSize, categoryId) {
     return request({
       url: `/product/get-product`,
       method: 'get',
-      params: { page: page, pageSize: pageSize, categoryID: categoryID }
+      params: { page: page, pageSize: pageSize, categoryId: categoryId }
     })
 }
