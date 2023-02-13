@@ -21,7 +21,7 @@
             v-for="item in categoryList"
             :key="item.id"
             :label="item.name"
-            :name="''+item.id"
+            :name="'' + item.id"
           />
         </el-tabs>
       </div>
@@ -59,9 +59,8 @@ export default {
   data() {
     return {
       categoryList: "", //分类列表
-      categoryID: [], // 分类id
-      product: [], // 商品列表
-      productList: "",
+      categoryId: '', // 分类id
+      product: '', // 商品列表
       total: 0, // 商品总量
       pageSize: 15, // 每页显示的商品数量
       currentPage: 1, //当前页码
@@ -70,41 +69,19 @@ export default {
     };
   },
   created() {
+    this.ininParam()
     // 获取分类列表
     this.fetchCategory();
     this.getData();
-  },
-  activated() {
-    this.activeName = "-1"; // 初始化分类列表当前选中的id为-1
-    this.total = 0; // 初始化商品总量为0
-    this.currentPage = 1; //初始化当前页码为1
-    // 如果路由没有传递参数，默认为显示全部商品
-    if (Object.keys(this.$route.query).length == 0) {
-      this.categoryID = [];
-      this.activeName = "0";
-      return;
-    }
-    // 如果路由传递了categoryID，则显示对应的分类商品
-    if (this.$route.query.categoryID != undefined) {
-      this.categoryID = this.$route.query.categoryID;
-      if (this.categoryID.length == 1) {
-        this.activeName = "" + this.categoryID[0];
-      }
-      return;
-    }
-    // 如果路由传递了search，则为搜索，显示对应的分类商品
-    if (this.$route.query.search != undefined) {
-      this.search = this.$route.query.search;
-    }
   },
   watch: {
     // 监听点击了哪个分类标签，通过修改分类id，响应相应的商品
     activeName: function(val) {
       if (val == 0) {
-        this.categoryID = [];
+        this.categoryId = '';
       }
-      if (val > 0) {
-        this.categoryID = [Number(val)];
+      if (val !=0 && this.categoryId != val) {
+        this.categoryId = val;
       }
       // 初始化商品总量和当前页码
       this.total = 0;
@@ -112,33 +89,25 @@ export default {
       // 更新地址栏链接，方便刷新页面可以回到原来的页面
       this.$router.push({
         path: "/shop/goods",
-        query: { categoryID: this.categoryID }
+        query: { categoryId: this.categoryId }
       });
     },
-    // 监听搜索条件，响应相应的商品
-    search: function(val) {
-      if (val != "") {
-        this.getProductBySearch(val);
-      }
-    },
-    // 监听分类id，响应相应的商品
-    categoryID: function() {
-      this.getData();
-      this.search = "";
-    },
-    // 监听路由变化，更新路由传递了搜索条件
-    $route: function(val) {
-      if (val.path == "/shop/goods") {
-        if (val.query.search != undefined) {
-          this.activeName = "-1";
-          this.currentPage = 1;
-          this.total = 0;
-          this.search = val.query.search;
-        }
-      }
-    }
   },
   methods: {
+    ininParam(){
+      // this.activeName = "-1"; // 初始化分类列表当前选中的id为-1
+      this.total = 0; // 初始化商品总量为0
+      this.currentPage = 1; //初始化当前页码为1
+      // 如果路由没有传递参数，默认为显示全部商品
+      // 如果路由传递了categoryId，则显示对应的分类商品
+      if (this.$route.query.categoryId != undefined) {
+        if(this.$route.query.categoryId != this.categoryId){
+          this.categoryId = this.$route.query.categoryId;
+        }
+        this.activeName = "" + this.categoryId;
+      }
+    },
+
     // 返回顶部
     backtop() {
       const timer = setInterval(function() {
@@ -180,26 +149,7 @@ export default {
     // 向后端请求全部商品或分类商品数据
     getData() {
       // 如果分类列表为空则请求全部商品数据，否则请求分类商品数据
-      // const api =
-      //   this.categoryID.length == 0
-      //     ? "/api/product/getAllProduct"
-      //     : "/api/product/getProductByCategory";
-      // this.$axios
-      //   .post(api, {
-      //     categoryID: this.categoryID,
-      //     currentPage: this.currentPage,
-      //     pageSize: this.pageSize
-      //   })
-      //   .then(res => {
-      //     this.product = res.data.Product;
-      //     this.total = res.data.total;
-      //   })
-      //   .catch(err => {
-      //     return Promise.reject(err);
-      //   });
-      console.log(this.categoryID)
-      let type = this.categoryID.length == 0 ? '' : this.categoryID[0];
-      getProduct(this.currentPage, this.pageSize, type).then((res)=>{
+      getProduct(this.currentPage, this.pageSize, this.categoryId).then((res)=>{
         this.product = res.data.list;
         this.total = res.data.pageInfo.totalRow;
       })

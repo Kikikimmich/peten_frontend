@@ -107,25 +107,25 @@ export default {
   data() {
     return {
       dis: false, // 控制“加入购物车按钮是否可用”
-      productID: "", // 商品id
+      productId: "", // 商品id
       productDetails: "", // 商品详细信息
       productPicture: "" // 商品图片
     };
   },
   // 通过路由获取商品id
   activated() {
-    if (this.$route.query.productID != undefined) {
-      this.productID = this.$route.query.productID;
+    if (this.$route.query.productId != undefined) {
+      this.productId = this.$route.query.productId;
     }
   },
   created(){
-    this.productID = this.$route.query.productID;
+    this.productId = this.$route.query.productId;
 
-    this.getDetails(this.productID)
+    this.getDetails(this.productId)
   },
   watch: {
     // 监听商品id的变化，请求后端获取商品数据
-    // productID: function(id) {
+    // productId: function(id) {
     //   this.getDetails(id);
     //   this.getDetailsPicture(id);
     // }
@@ -136,7 +136,7 @@ export default {
     getDetails(id) {
       // this.$axios
       //   .post("/api/product/getDetails", {
-      //     productID: val
+      //     productId: val
       //   })
       //   .then(res => {
       //     this.productDetails = res.data.Product[0];
@@ -154,7 +154,7 @@ export default {
     // getDetailsPicture(val) {
     //   this.$axios
     //     .post("/api/product/getDetailsPicture", {
-    //       productID: val
+    //       productId: val
     //     })
     //     .then(res => {
     //       this.productPicture = res.data.ProductPicture;
@@ -178,7 +178,7 @@ export default {
       // this.$axios
       //   .post("/api/user/shoppingCart/addShoppingCart", {
       //     user_id: this.$store.getters.getUser.user_id,
-      //     product_id: this.productID
+      //     product_id: this.productId
       //   })
       //   .then(res => {
       //     switch (res.data.code) {
@@ -189,7 +189,7 @@ export default {
       //         break;
       //       case "002":
       //         // 该商品已经在购物车，数量+1
-      //         this.addShoppingCartNum(this.productID);
+      //         this.addShoppingCartNum(this.productId);
       //         this.notifySucceed(res.data.msg);
       //         break;
       //       case "003":
@@ -204,7 +204,7 @@ export default {
       //   .catch(err => {
       //     return Promise.reject(err);
       //   });
-      addCart(this.productID).then((res)=>{
+      addCart(this.productId).then((res)=>{
         if(res.code == 200){
           this.notifySucceed("添加成功");
           // 更新购物车信息
@@ -222,7 +222,7 @@ export default {
       this.$axios
         .post("/api/user/collect/addCollect", {
           user_id: this.$store.getters.getUser.user_id,
-          product_id: this.productID
+          product_id: this.productId
         })
         .then(res => {
           if (res.data.code == "001") {

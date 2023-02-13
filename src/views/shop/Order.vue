@@ -32,13 +32,13 @@
           <!-- 订单列表 -->
           <li class="product-list" v-for="(product,i) in item" :key="i">
             <div class="pro-img">
-              <router-link :to="{ path: '/goods/details', query: {productID:product.product_id} }">
+              <router-link :to="{ path: '/goods/details', query: {productId:product.product_id} }">
                 <img :src="$target + product.product_picture" />
               </router-link>
             </div>
             <div class="pro-name">
               <router-link
-                :to="{ path: '/goods/details', query: {productID:product.product_id} }"
+                :to="{ path: '/goods/details', query: {productId:product.product_id} }"
               >{{product.product_name}}</router-link>
             </div>
             <div class="pro-price">{{product.product_price}}元</div>

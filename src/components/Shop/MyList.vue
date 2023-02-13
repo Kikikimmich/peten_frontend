@@ -9,7 +9,7 @@
           </div>
           <i class="el-icon-close delete" slot="reference" v-show="isDelete"></i>
         </el-popover>
-        <router-link :to="{ path: '/shop/goods/details', query: {productID:item.id} }">
+        <router-link :to="{ path: '/shop/goods/details', query: {productId:item.id} }">
           <img :src="item.cover" alt />
           <h2>{{item.name}}</h2>
           <h3>{{item.title}}</h3>
@@ -23,7 +23,7 @@
         </router-link>
       </li>
       <li v-show="isMore && list.length>=1" id="more">
-        <router-link :to="{ path: '/shop/goods', query: {categoryID:categoryID} }">
+        <router-link :to="{ path: '/shop/goods', query: {categoryId:categoryId} }">
           浏览更多
           <i class="el-icon-d-arrow-right"></i>
         </router-link>
@@ -42,17 +42,17 @@ export default {
   },
   computed: {
     // 通过list获取当前显示的商品的分类ID，用于“浏览更多”链接的参数
-    categoryID: function() {
-      let categoryID = [];
+    categoryId: function() {
+      let categoryId = [];
       if (this.list != "") {
         for (let i = 0; i < this.list.length; i++) {
           const id = this.list[i].category_id;
-          if (!categoryID.includes(id)) {
-            categoryID.push(id);
+          if (!categoryId.includes(id)) {
+            categoryId.push(id);
           }
         }
       }
-      return categoryID;
+      return categoryId;
     }
   },
   methods: {

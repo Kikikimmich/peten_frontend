@@ -35,13 +35,13 @@
             <el-checkbox :value="item.check" @change="checkChange($event,index)"></el-checkbox>
           </div>
           <div class="pro-img">
-            <router-link :to="{ path: '/shop/goods/details', query: {productID:item.productId} }">
+            <router-link :to="{ path: '/shop/goods/details', query: {productId:item.productId} }">
               <img :src="item.productCover" />
             </router-link>
           </div>
           <div class="pro-name">
             <router-link
-              :to="{ path: '/shop/goods/details', query: {productID:item.productId} }"
+              :to="{ path: '/shop/goods/details', query: {productId:item.productId} }"
             >{{item.productName}}</router-link>
           </div>
           <div class="pro-price">{{item.specialPrice}}元</div>
@@ -127,11 +127,11 @@ export default {
   methods: {
     ...mapActions(["updateShoppingCart", "deleteShoppingCart", "checkAll"]),
     // 修改商品数量的时候调用该函数
-    handleChange(currentValue, key, productID) {
+    handleChange(currentValue, key, productId) {
       // 当修改数量时，默认勾选
       this.updateShoppingCart({ key: key, prop: "check", val: true });
       // 向后端发起更新购物车的数据库信息请求
-      updateShoppingCart(productID, currentValue)
+      updateShoppingCart(productId, currentValue)
         .then(res => {
           switch (res.code) {
             case 200:
@@ -158,7 +158,7 @@ export default {
       this.updateShoppingCart({ key: key, prop: "check", val: val });
     },
     // 向后端发起删除购物车的数据库信息请求
-    deleteItem(e, id, productID) {
+    deleteItem(e, id, productId) {
       deleteShoppingCart(id)
         .then(res => {
           switch (res.code) {

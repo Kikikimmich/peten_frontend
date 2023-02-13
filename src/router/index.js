@@ -51,8 +51,8 @@ const routes = [
   },
   // 商城
   {
-    name: "shop-goods",
-    path: "/shop",
+    name: "shop",
+    path: "/shop/goods",
     component: () => import("@/views/shop/Goods"),
     meta: { 
       title: "商城",
