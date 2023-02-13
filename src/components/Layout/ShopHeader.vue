@@ -138,30 +138,48 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters,  mapActions } from 'vuex'
+
+import { getCart } from '@/api/shoppingCart'
+
 
 export default {
   name: 'ShopHeader',
   data() {
     return {
-      searchKey: '',
-      // todo getNum
-      getNum: 0
+      searchKey: ''
     }
   },
+  created(){
+    this.setCart()
+  },
   computed: {
-    ...mapGetters(['token', 'user'])
+    ...mapGetters(['token', 'user', 'getNum'])
   },
   watch: {
-  
-  },
-  created() {
-    
+    token: function(){
+      // this.setCart()
+    }
   },
   methods: {
-    // getNum(){
-      
-    // },
+   ...mapActions(["setShoppingCart"]),
+
+
+   setCart(){
+       // 有 token 被视为登录成功，获取登录成功的信息
+       if(this.token == undefined || this.token == ''){
+        this.setShoppingCart([])
+      }else{
+        getCart().then((res)=>{
+          let list = res.data;
+          list.forEach(element => {
+            // 购物车选择时用到
+            element.check = false;
+          });
+          this.setShoppingCart(list)
+        })
+      }
+   },
 
     navToShop() {
       let { href } = this.$router.resolve({
@@ -172,9 +190,10 @@ export default {
     async logout() {
       this.$store.dispatch('user/logout').then(() => {
         this.$message.info('退出登录成功')
-        setTimeout(() => {
-          this.$router.push({ path: this.redirect || '/' })
-        }, 500)
+        // setTimeout(() => {
+        //   this.$router.push({ path: this.redirect || '/' })
+        // }, 500)
+        this.$router.go(-1)
       })
     },
     search() {
@@ -246,7 +265,7 @@ input {
 }
 .nav .shopCart-full {
   width: 120px;
-  background: #fff;
+  background: #ff6700;
 }
 .nav .shopCart-full a {
   color: white;

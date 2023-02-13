@@ -49,13 +49,13 @@ const routes = [
       requireAuth: true
     }
   },
-  // 商店
+  // 商城
   {
     name: "shop-goods",
-    path: "/shop/goods",
+    path: "/shop",
     component: () => import("@/views/shop/Goods"),
     meta: { 
-      title: "商品",
+      title: "商城",
       shopHeaderShow: true
    },
   },

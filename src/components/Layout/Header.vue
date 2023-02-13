@@ -159,7 +159,7 @@ export default {
   methods: {
     navToShop() {
       let { href } = this.$router.resolve({
-        path: "/shop/goods"
+        path: "/shop"
       })
       window.open(href, '_blank');
     },

@@ -35,26 +35,26 @@
             <el-checkbox :value="item.check" @change="checkChange($event,index)"></el-checkbox>
           </div>
           <div class="pro-img">
-            <router-link :to="{ path: '/goods/details', query: {productID:item.productID} }">
-              <img :src="$target + item.productImg" />
+            <router-link :to="{ path: '/shop/goods/details', query: {productID:item.productId} }">
+              <img :src="item.productCover" />
             </router-link>
           </div>
           <div class="pro-name">
             <router-link
-              :to="{ path: '/goods/details', query: {productID:item.productID} }"
+              :to="{ path: '/shop/goods/details', query: {productID:item.productId} }"
             >{{item.productName}}</router-link>
           </div>
-          <div class="pro-price">{{item.price}}元</div>
+          <div class="pro-price">{{item.specialPrice}}元</div>
           <div class="pro-num">
             <el-input-number
               size="small"
-              :value="item.num"
-              @change="handleChange($event,index,item.productID)"
+              :value="item.count"
+              @change="handleChange($event,index,item.productId)"
               :min="1"
-              :max="item.maxNum"
+              :max="item.limitCount"
             ></el-input-number>
           </div>
-          <div class="pro-total pro-total-in">{{item.price*item.num}}元</div>
+          <div class="pro-total pro-total-in">{{item.specialPrice*item.count}}元</div>
           <div class="pro-action">
             <el-popover placement="right">
               <p>确定删除吗？</p>
@@ -62,7 +62,7 @@
                 <el-button
                   type="primary"
                   size="mini"
-                  @click="deleteItem($event,item.id,item.productID)"
+                  @click="deleteItem($event,item.id,item.productId)"
                 >确定</el-button>
               </div>
               <i class="el-icon-error" slot="reference" style="font-size: 18px;"></i>
@@ -113,13 +113,15 @@
 import { mapActions } from "vuex";
 import { mapGetters } from "vuex";
 
+import { updateShoppingCart, deleteShoppingCart } from '@/api/shoppingCart'
+
 export default {
   data() {
     return {
-      getShoppingCart: 0,
-      getCheckNum: 0,
-      getTotalPrice: 0,
-      getNum: 0
+      // getShoppingCart: 0,
+      // getCheckNum: 0,
+      // getTotalPrice: 0,
+      // getNum: 0
     };
   },
   methods: {
@@ -129,28 +131,22 @@ export default {
       // 当修改数量时，默认勾选
       this.updateShoppingCart({ key: key, prop: "check", val: true });
       // 向后端发起更新购物车的数据库信息请求
-      this.$axios
-        .post("/api/user/shoppingCart/updateShoppingCart", {
-          user_id: this.$store.getters.getUser.user_id,
-          product_id: productID,
-          num: currentValue
-        })
+      updateShoppingCart(productID, currentValue)
         .then(res => {
-          switch (res.data.code) {
-            case "001":
-              // “001”代表更新成功
+          switch (res.code) {
+            case 200:
               // 更新vuex状态
               this.updateShoppingCart({
                 key: key,
-                prop: "num",
+                prop: "count",
                 val: currentValue
               });
               // 提示更新成功信息
-              this.notifySucceed(res.data.msg);
+              this.notifySucceed("操作成功");
               break;
             default:
               // 提示更新失败信息
-              this.notifyError(res.data.msg);
+              this.notifyError("操作失败");
           }
         })
         .catch(err => {
@@ -163,23 +159,18 @@ export default {
     },
     // 向后端发起删除购物车的数据库信息请求
     deleteItem(e, id, productID) {
-      this.$axios
-        .post("/api/user/shoppingCart/deleteShoppingCart", {
-          user_id: this.$store.getters.getUser.user_id,
-          product_id: productID
-        })
+      deleteShoppingCart(id)
         .then(res => {
-          switch (res.data.code) {
-            case "001":
-              // “001” 删除成功
+          switch (res.code) {
+            case 200:
               // 更新vuex状态
               this.deleteShoppingCart(id);
               // 提示删除成功信息
-              this.notifySucceed(res.data.msg);
+              this.notifySucceed("操作成功");
               break;
             default:
               // 提示删除失败信息
-              this.notifyError(res.data.msg);
+              this.notifyError("操作失败");
           }
         })
         .catch(err => {
@@ -256,6 +247,7 @@ export default {
   height: 85px;
   padding-right: 26px;
   color: #424242;
+  position: relative;
 }
 .shoppingCart .content ul .product-list {
   height: 85px;
@@ -282,7 +274,7 @@ export default {
 }
 .shoppingCart .content ul .pro-name {
   float: left;
-  width: 380px;
+  width: 350px;
 }
 .shoppingCart .content ul .pro-name a {
   color: #424242;
@@ -298,14 +290,14 @@ export default {
 }
 .shoppingCart .content ul .pro-num {
   float: left;
-  width: 150px;
+  width: 120px;
   text-align: center;
 }
 .shoppingCart .content ul .pro-total {
   float: left;
-  width: 120px;
-  padding-right: 81px;
-  text-align: right;
+  width: 180px;
+  /* padding-right: 10px; */
+  text-align: center;
 }
 .shoppingCart .content ul .pro-total-in {
   color: #ff6700;

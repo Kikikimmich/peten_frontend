@@ -24,13 +24,15 @@ export default {
   },
   methods: {
     goHome: function () {
-      this.timer = setInterval(() => {
-        this.times--
-        if (this.times === 0) {
-          clearInterval(this.timer)
-          this.$router.push({path: '/'});
-        }
-      }, 1000)
+      // this.timer = setInterval(() => {
+      //   this.times--
+      //   if (this.times === 0) {
+      //     clearInterval(this.timer)
+      //     // this.$router.push({path: '/'});
+      //     // 上一层
+      //     // this.$router.go(-1);
+      //   }
+      // }, 1000)
     }
   }
 }

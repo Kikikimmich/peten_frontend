@@ -33,6 +33,10 @@ Vue.prototype.dayjs = dayjs;//可以全局使用dayjs
 import Axios from 'axios';
 Vue.prototype.$axios = Axios;
 
+// 全局函数及变量
+import Global from './Global';
+Vue.use(Global);
+
 Vue.filter('date', (date) => {
   return format(new Date(date), 'yyyy-MM-dd')
 })
