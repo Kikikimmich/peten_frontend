@@ -57,7 +57,7 @@ const routes = [
     meta: { 
       title: "商城",
       shopHeaderShow: true
-   },
+    },
   },
   // 商店-我的订单
   {
@@ -67,7 +67,7 @@ const routes = [
     meta: { 
       title: "商品",
       shopHeaderShow: true
-   },
+    },
   },
    // 商店-我的收藏
   {
@@ -77,17 +77,27 @@ const routes = [
     meta: { 
       title: "商品",
       shopHeaderShow: true
-   },
+    },
   },
    // 商店-购物车
-   {
+  {
     name: "shop-shopping-cart",
     path: "/shop/shoppingCart",
     component: () => import("@/views/shop/ShoppingCart"),
     meta: { 
       title: "商品",
       shopHeaderShow: true
-   },
+    },
+  },
+   // 商店-确认订单
+   {
+    name: "shop-confirm-order",
+    path: "/shop/confirm-order",
+    component: () => import("@/views/shop/ConfirmOrder"),
+    meta: { 
+      title: "商品",
+      shopHeaderShow: true
+    },
   },
   // 商品详情
   {

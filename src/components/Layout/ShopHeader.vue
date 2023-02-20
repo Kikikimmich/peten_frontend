@@ -157,8 +157,8 @@ export default {
     ...mapGetters(['token', 'user', 'getNum'])
   },
   watch: {
-    token: function(){
-      // this.setCart()
+    token: function(val){
+      this.setCart()
     }
   },
   methods: {

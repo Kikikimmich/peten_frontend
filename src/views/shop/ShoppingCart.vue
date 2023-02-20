@@ -90,7 +90,7 @@
             <span class="total-price-title">合计：</span>
             <span class="total-price">{{getTotalPrice}}元</span>
           </span>
-          <router-link :to="getCheckNum > 0 ? '/confirmOrder' : ''">
+          <router-link :to="getCheckNum > 0 ? '/shop/confirm-order' : ''">
             <div :class="getCheckNum > 0 ? 'btn-primary' : 'btn-primary-disabled'">去结算</div>
           </router-link>
         </div>
@@ -247,12 +247,12 @@ export default {
   height: 85px;
   padding-right: 26px;
   color: #424242;
-  position: relative;
+  position: inherit;
 }
 .shoppingCart .content ul .product-list {
   height: 85px;
   padding: 15px 26px 15px 0;
-  border-top: 1px solid #e0e0e0;
+  /* border-top: 1px solid #e0e0e0; */
 }
 .shoppingCart .content ul .pro-check {
   float: left;
