@@ -17,8 +17,8 @@
         <ul>
           <!-- 我的订单表头 -->
           <li class="order-info">
-            <div class="order-id">订单编号: {{item[0].order_id}}</div>
-            <div class="order-time">订单时间: {{item[0].order_time | dateFormat}}</div>
+            <div class="order-id">订单编号: {{item[0].orderId}}</div>
+            <div class="order-time">订单时间: {{item[0].createTime}}</div>
           </li>
           <li class="header">
             <div class="pro-img"></div>
@@ -32,18 +32,18 @@
           <!-- 订单列表 -->
           <li class="product-list" v-for="(product,i) in item" :key="i">
             <div class="pro-img">
-              <router-link :to="{ path: '/goods/details', query: {productId:product.product_id} }">
-                <img :src="$target + product.product_picture" />
+              <router-link :to="{ path: '/shop/goods/details', query: {productId:product.productId} }">
+                <img :src="product.productCover" />
               </router-link>
             </div>
             <div class="pro-name">
               <router-link
-                :to="{ path: '/goods/details', query: {productId:product.product_id} }"
-              >{{product.product_name}}</router-link>
+                :to="{ path: '/shop/goods/details', query: {productId:product.productId} }"
+              >{{product.productName}}</router-link>
             </div>
-            <div class="pro-price">{{product.product_price}}元</div>
-            <div class="pro-num">{{product.product_num}}</div>
-            <div class="pro-total pro-total-in">{{product.product_price*product.product_num}}元</div>
+            <div class="pro-price">{{product.unitPrice}}元</div>
+            <div class="pro-num">{{product.count}}</div>
+            <div class="pro-total pro-total-in">{{product.unitPrice*product.count}}元</div>
           </li>
         </ul>
         <div class="order-bar">
@@ -76,7 +76,12 @@
     <!-- 订单为空的时候显示的内容END -->
   </div>
 </template>
+
+
 <script>
+
+import { getList } from '@/api/order'
+
 export default {
   data() {
     return {
@@ -84,22 +89,25 @@ export default {
       total: [] // 每个订单的商品数量及总价列表
     };
   },
+  created(){
+    this.getOrder()
+  },
   activated() {
     // 获取订单数据
-    this.$axios
-      .post("/api/user/order/getOrder", {
-        user_id: this.$store.getters.getUser.user_id
-      })
-      .then(res => {
-        if (res.data.code === "001") {
-          this.orders = res.data.orders;
-        } else {
-          this.notifyError(res.data.msg);
-        }
-      })
-      .catch(err => {
-        return Promise.reject(err);
-      });
+    // this.$axios
+    //   .post("/api/user/order/getOrder", {
+    //     user_id: this.$store.getters.getUser.user_id
+    //   })
+    //   .then(res => {
+    //     if (res.data.code === "001") {
+    //       this.orders = res.data.orders;
+    //     } else {
+    //       this.notifyError(res.data.msg);
+    //     }
+    //   })
+    //   .catch(err => {
+    //     return Promise.reject(err);
+    //   });
   },
   watch: {
     // 通过订单信息，计算出每个订单的商品数量及总价
@@ -112,17 +120,27 @@ export default {
         let totalPrice = 0;
         for (let j = 0; j < element.length; j++) {
           const temp = element[j];
-          totalNum += temp.product_num;
-          totalPrice += temp.product_price * temp.product_num;
+          totalNum += temp.count;
+          totalPrice += temp.totalCost * temp.count;
         }
         total.push({ totalNum, totalPrice });
       }
       this.total = total;
     }
+  },
+  methods:{
+    getOrder(){
+      getList().then((res)=>{
+        this.orders = res.data;
+      })
+    }
   }
 };
 </script>
 <style scoped>
+ul{
+  list-style: none;
+}
 .order {
   background-color: #f5f5f5;
   padding-bottom: 20px;
@@ -178,6 +196,7 @@ export default {
   height: 85px;
   padding-right: 26px;
   color: #424242;
+  position: inherit;
 }
 /* 我的订单表头CSS END */
 
