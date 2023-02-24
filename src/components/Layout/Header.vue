@@ -34,6 +34,15 @@
         </b-navbar-item>
       </template>
 
+      <template slot="start">
+        <b-navbar-item
+         
+          @click="navToHospital"
+        >
+          健康
+        </b-navbar-item>
+      </template>
+
       <template slot="end">
         <b-navbar-item tag="div">
           <b-field position="is-centered">
@@ -160,6 +169,12 @@ export default {
     navToShop() {
       let { href } = this.$router.resolve({
         path: "/shop/goods"
+      })
+      window.open(href, '_blank');
+    },
+    navToHospital() {
+      let { href } = this.$router.resolve({
+        path: "/hospital"
       })
       window.open(href, '_blank');
     },

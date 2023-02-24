@@ -49,6 +49,26 @@ const routes = [
       requireAuth: true
     }
   },
+  // 医院
+  {
+    name: "hospital",
+    path: "/hospital",
+    component: () => import("@/views/hospital/Index"),
+    meta: { 
+      title: "健康",
+      // shopHeaderShow: true
+    },
+  },
+    // 医院详情
+    {
+      name: "hospital-detail",
+      path: "/hospital/detail",
+      component: () => import("@/views/hospital/Detail"),
+      meta: { 
+        title: "健康",
+        // shopHeaderShow: true
+      },
+    },
   // 商城
   {
     name: "shop",

@@ -37,6 +37,29 @@ Vue.prototype.$axios = Axios;
 import Global from './Global';
 Vue.use(Global);
 
+
+// // 全局引入地图
+// import AmapVue from '@amap/amap-vue';
+
+// AmapVue.config.version = '2.0'; // 默认2.0，这里可以不修改
+// // AmapVue.config.key = '您的JSAPI KEY';
+// AmapVue.config.key = 'd7fa03bbe3cb1c99dbeb945a9c4be9db';
+// AmapVue.config.plugins = [
+//   'AMap.ToolBar',
+//   'AMap.MoveAnimation',
+//   // 在此配置你需要预加载的插件，如果不配置，在使用到的时候会自动异步加载
+// ];
+// Vue.use(AmapVue);
+
+// import VueAMap from 'vue-amap';
+// Vue.use(VueAMap);
+// VueAMap.initAMapApiLoader({
+//   key: 'd7fa03bbe3cb1c99dbeb945a9c4be9db',
+//   plugin: ['AMap.Geolocation', 'AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType', 'AMap.PolyEditor', 'AMap.CircleEditor'],
+//   v: '1.4.4'
+// });
+
+
 Vue.filter('date', (date) => {
   return format(new Date(date), 'yyyy-MM-dd')
 })
