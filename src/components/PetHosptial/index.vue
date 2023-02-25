@@ -32,13 +32,15 @@
 
 import bus from '@/bus/bus'
 
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
     name: 'PetHosptial',
     components: {},
     computed: {
-
+        ...mapGetters([
+            'getHospitalDetail'
+        ])
     },
     data() {
         return {
@@ -81,6 +83,7 @@ export default {
         showPetHospitalDetail(detail) {
             console.log("detail", detail)
             this.setHospitalDetail(detail);
+            console.log("ggggg",this.getHospitalDetail)
             this.$router.push({ path: '/hospital/detail' })
         },
         currentChange(val) {

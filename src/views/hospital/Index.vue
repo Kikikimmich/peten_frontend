@@ -17,7 +17,7 @@
   
 <script>
 
-import MyMap from '@/components/MyMap'
+import MyMap from '@/components/MyMap/index.vue'
 import Search from '@/components/Search/Search.vue'
 import PetHosptial from '@/components/PetHosptial'
 

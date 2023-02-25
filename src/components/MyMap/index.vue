@@ -9,6 +9,8 @@
 import AMapLoader from '@amap/amap-jsapi-loader';
 import bus from '@/bus/bus'
 
+import { mapActions } from "vuex";
+
 window._AMapSecurityConfig = {
     securityJsCode: '1dbf90857c868c4b99c98165da706acb'
 }
@@ -39,6 +41,8 @@ export default {
         }
     },
     methods: {
+        ...mapActions(["setMyPosition"]),
+
         initMap() {
             AMapLoader.load({
                 key: '02c854342b6ea9c8f1e85cb0a6f2882f', // 申请好的Web端开发者Key，首次调用 load 时必填
@@ -67,6 +71,7 @@ export default {
                         if (status == 'complete') {
                             // onComplete(result)
                             this.myPosition = result
+                            this.setMyPosition(result)
                         }
                     });
                     this.map.addControl(geolocation)
