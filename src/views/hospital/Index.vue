@@ -50,7 +50,7 @@ export default {
             bus.$emit('showPetHosptial', inputObject)
         },
         showPetHospitalDetail(){
-            console.log("333")
+            // console.log("333")
         }
     }
 }

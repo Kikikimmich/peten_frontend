@@ -81,10 +81,12 @@ export default {
         },
         // 跳转详细信息
         showPetHospitalDetail(detail) {
-            console.log("detail", detail)
+            // console.log("detail", detail)
             this.setHospitalDetail(detail);
-            console.log("ggggg",this.getHospitalDetail)
+            // console.log("ggggg",this.getHospitalDetail)
             this.$router.push({ path: '/hospital/detail' })
+            // 尝试将数据传过去
+            bus.$emit("petHospitalDetail", detail)
         },
         currentChange(val) {
             console.log("pageChange", val)

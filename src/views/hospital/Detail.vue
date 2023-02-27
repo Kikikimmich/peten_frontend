@@ -18,15 +18,23 @@
             <!-- 右侧内容区 -->
             <div class="content">
                 <h1 class="name">{{ getHospitalDetail.name }}</h1>
-                <p class="address">地址:{{ getHospitalDetail.cityname }}/{{ getHospitalDetail.adname }}/{{ getHospitalDetail.address }}</p>
+                <p class="address">地址:{{ getHospitalDetail.cityname }}/{{ getHospitalDetail.adname }}/{{
+                    getHospitalDetail.address }}</p>
                 <p class="distance">距离:{{ getHospitalDetail.distance }}米</p>
                 <p class="service">服务:{{ getHospitalDetail.type }}</p>
                 <p class="tel">电话:{{ getHospitalDetail.tel }}</p>
                 <p class="rating">评分:{{ getHospitalDetail.rating }}</p>
                 <a class="website" href="getHospitalDetail.website">官网:</a>
-                
+
+
+
+                <div class="traffic-type">
+                    <el-radio v-model="type" label="1">步行导航</el-radio>
+                    <el-radio v-model="type" label="2">公交导航</el-radio>
+                    <el-radio v-model="type" label="3">自驾导航</el-radio>
+                </div>
+
                 <MapForNav></MapForNav>
-                <!-- <TrafficNav></TrafficNav> -->
             </div>
             <!-- 右侧内容区END -->
         </div>
@@ -35,12 +43,12 @@
 </template>
 <script>
 import { mapActions, mapGetters } from "vuex";
+import bus from '@/bus/bus'
 
 import MapForNav from '@/components/MyMap/MapForNav.vue'
-// import TrafficNav from '@/components/MyMap/TrafficNav.vue'
 
 export default {
-    components: { MapForNav},
+    components: { MapForNav },
     computed: {
         ...mapGetters([
             'getHospitalDetail'
@@ -52,7 +60,8 @@ export default {
             hospitalDetail: null,
             photos: [],
 
-
+            // 出行方式
+            type: '1'
 
         };
     },
@@ -62,12 +71,20 @@ export default {
     },
     created() {
         this.init()
+        bus.$on('petHospitalDetail', val => {
+            // if (this.getHospitalDetail == null) {
+            //     this.getHospitalDetail = val
+            // }
+        })
     },
     destroyed() {
         // this.deleteHospitalDetail()
     },
     watch: {
-
+        type: ((val)=>{
+            console.log("typechange", val)
+            bus.$emit("traffic-type-change", val)
+        })
     },
     methods: {
         ...mapActions(["deleteHospitalDetail"]),
@@ -77,7 +94,6 @@ export default {
                 this.hospitalDetail = this.getHospitalDetail;
                 this.photos = this.getHospitalDetail.photos
             }
-            console.log("55555555", this.getHospitalDetail)
         }
 
     }
