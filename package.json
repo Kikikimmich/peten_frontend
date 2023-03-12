@@ -15,6 +15,7 @@
     "darkreader": "^4.9.58",
     "date-fns": "^2.29.3",
     "dayjs": "^1.11.7",
+    "element-china-area-data": "^5.0.2",
     "element-ui": "^2.15.12",
     "js-cookie": "^3.0.1",
     "less": "^4.1.3",
