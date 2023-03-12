@@ -15,22 +15,30 @@
                 <el-form-item label="昵称">
                   <el-input v-model="user.alias" />
                 </el-form-item>
-                <el-form-item label="简介">
-                  <el-input v-model="user.bio" />
+                <el-form-item label="头像">
+                  <el-upload
+                    class="avatar-uploader"
+                    action="uploadImage"
+                    :show-file-list="false"
+                    :on-success="handleAvatarSuccess"
+                    :before-upload="beforeAvatarUpload">
+                    <img v-if="user.avatar" :src="user.avatar" class="avatar" style="height: 150px; width: 150px;">
+                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                  </el-upload>
                 </el-form-item>
-                <el-form-item>
-                  <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
-                  <el-button @click="resetForm('ruleForm')">重置</el-button>
+                <el-form-item label="性别" prop="sex">
+                  <el-switch
+                    v-model="user.sex"
+                    active-color="#13ce66"
+                    inactive-color="#ff4949"
+                    active-text="男"
+                    inactive-text="女"
+                    :active-value= "1"
+                    :inactive-value= "0"
+                  >
+                  </el-switch>
                 </el-form-item>
-              </el-form>
-            </el-tab-pane>
-            <el-tab-pane label="头像" name="second">
-              <figure class="image is-48x48">
-                <img :src="`https://cn.gravatar.com/avatar/${this.user.id}?s=164&d=monsterid`">
-              </figure>
-            </el-tab-pane>
-            <el-tab-pane label="电子邮箱" name="third">
-              <el-form ref="dynamicValidateForm" :model="user" label-width="100px" class="demo-dynamic">
+
                 <el-form-item
                   prop="email"
                   label="邮箱"
@@ -42,23 +50,35 @@
                   <el-input v-model="user.email" />
                 </el-form-item>
 
+                <el-form-item
+                  prop="mobile"
+                  label="手机号"
+                  :rules="[
+                    { required: true, message: '请输入手机号码', trigger: 'blur' },
+                    { min: 11, max: 11, message: '请输入11位手机号码', trigger: 'blur' },
+                    {
+                      pattern: /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/,
+                      message: '请输入正确的手机号码'
+                    }
+                  ]"
+                >
+                  <el-input v-model="user.mobile" />   
+                </el-form-item>
+                
+                <el-form-item label="简介">
+                  <el-input v-model="user.bio" />
+                </el-form-item>
                 <el-form-item>
-                  <el-button type="primary" @click="submitForm('dynamicValidateForm')">提交</el-button>
-                  <el-button @click="resetForm('dynamicValidateForm')">重置</el-button>
+                  <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+                  <el-button @click="resetForm('ruleForm')">重置</el-button>
                 </el-form-item>
               </el-form>
             </el-tab-pane>
-            <el-tab-pane label="手机号" name="fourth">
-              <el-form ref="dynamicValidateForm" :model="user" label-width="100px" class="demo-dynamic">
-                <el-form-item>
-                  <el-input v-model="user.mobile" />
-                </el-form-item>
 
-                <el-form-item>
-                  <el-button type="primary" @click="submitForm('dynamicValidateForm')">提交</el-button>
-                  <el-button @click="resetForm('dynamicValidateForm')">重置</el-button>
-                </el-form-item>
-              </el-form>
+            <el-tab-pane label="我的宠物" name="second">
+            </el-tab-pane>
+
+            <el-tab-pane label="我的地址" name="third">
             </el-tab-pane>
           </el-tabs>
         </div>
@@ -83,7 +103,8 @@ export default {
         bio: '',
         email: '',
         mobile: '',
-        avatar: ''
+        avatar: '',
+        sex:''
       }
     }
   },
@@ -91,9 +112,21 @@ export default {
     this.fetchInfo()
   },
   methods: {
+
+    uploadImage(){
+
+    },
+    handleAvatarSuccess(){
+
+    },
+
+    beforeAvatarUpload(){
+
+    },
+
     fetchInfo() {
       getInfo(this.$route.params.username).then(res => {
-        console.log(res)
+        // console.log(res)
         const { data } = res
         this.user = data
       })
