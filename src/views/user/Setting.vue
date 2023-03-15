@@ -250,6 +250,7 @@ export default {
       options: regionData,
       selectedOptions: [],
       addtions: {},			//存储地址数据
+      
     }
   },
   created() {
