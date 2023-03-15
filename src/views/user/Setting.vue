@@ -95,7 +95,7 @@
                   </div>
                 </div>
                 <!-- 表单 -->
-                <div class="pet-info-info" v-show="pet.length > 0">
+                <div class="pet-info" v-show="pet.length > 0">
                   <el-form :label-position="labelPosition" label-width="100px" :model="petInfo">
                     <el-form-item label="昵称">
                       <el-input v-model="petInfo.alias" />
@@ -148,32 +148,37 @@
 
             <!-- 地址信息 -->
             <el-tab-pane label="我的地址" name="third">
-              <div class="section-address">
+              <div class="my-address">
                 <p class="title">收货地址</p>
-                <div class="address-body">
-                  <ul>
-                    <li
-                      :class="item.id == confirmAddress ? 'in-section' : ''"
-                      v-for="item in address"
-                      :key="item.id"
-                    >
-                      <h2>{{item.name}}</h2>
-                      <p class="phone">{{item.phone}}</p>
-                      <p class="address">{{item.address}}</p>
-                    </li>
-                    <li class="add-address">
-                      <i class="el-icon-circle-plus-outline"></i>
-                      <p>添加新地址</p>
-                    </li>
-                  </ul>
+                <div class="address-info-select">
+                  <div
+                    :class="item.id == confirmAddress ? 'in-section' : 'not-in-section'"
+                    v-for="item in address"
+                    :key="item.id"
+                  >
+                    <h2>{{item.name}}</h2>
+                    <p class="phone">{{item.phone}}</p>
+                    <p class="address">{{item.address}}</p>
+                  </div>
+                  <div class="add-address">
+                    <i class="el-icon-circle-plus-outline"></i>
+                    <p>添加新地址</p>
+                  </div>
                 </div>
-                <div class="add-address-info">
-                  <el-cascader
-                    size="large"
-                    :options="options"
-                    v-model="selectedOptions"
-                    @change="handleAddressChange">
-                  </el-cascader>
+                <div class="address-info" v-show="address.length > 0">
+                  <el-form :label-position="labelPosition" label-width="100px" :model="addressInfo">
+                    <el-form-item label="爱好">
+                      <el-input v-model="petInfo.hobby" />
+                    </el-form-item>
+                    <el-form-item label="地址">
+                      <el-cascader
+                        size="large"
+                        :options="options"
+                        v-model="selectedOptions"
+                        @change="handleAddressChange">
+                      </el-cascader>
+                    </el-form-item>
+                  </el-form>
                 </div>
               </div>
             </el-tab-pane>
@@ -237,20 +242,21 @@ export default {
         {
           id: 1,
           name: "用户1",
-          phone: "100861001010000",
+          phone: "13760042723",
           address: "广东 广州市 白云区 ***"
         },
         {
           id: 2,
           name: "用户1",
-          phone: "100861001010000",
-          address: "广东 广州市 白云区 ***"
+          phone: "13760042723",
+          address: "广东 广州市 番禺区 ***"
         }
       ],
+      addressInfo: {},
       options: regionData,
       selectedOptions: [],
       addtions: {},			//存储地址数据
-      
+
     }
   },
   created() {
@@ -354,22 +360,22 @@ export default {
 
 
 /* 选择地址CSS */
-.section-address {
+.my-address .address-info-select {
   margin: 0 48px;
   overflow: hidden;
 }
-.section-address .title {
+.my-address .address-info-select .title {
   color: #333;
   font-size: 18px;
   line-height: 20px;
   margin-bottom: 20px;
 }
-.address-body ul {
+.my-address .address-info-select .in-section, .not-in-section, .add-address {
   display: flex;
-  flex-direction: row;
-}
-.address-body li {
-  /* float: left; */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  float: left;
   color: #333;
   width: 220px;
   height: 178px;
@@ -380,33 +386,20 @@ export default {
 
   list-style:none;
 }
-.address-body .in-section {
+.my-address .address-info-select .in-section {
   border: 1px solid #ff6700;
 }
-.address-body li h2 {
-  font-size: 18px;
-  font-weight: normal;
-  line-height: 30px;
-  margin-bottom: 10px;
-}
-.address-body li p {
-  font-size: 14px;
-  color: #757575;
-}
-.address-body li .address {
-  padding: 10px 0;
-  max-width: 180px;
-  max-height: 88px;
-  line-height: 22px;
-  overflow: hidden;
-}
-.address-body .add-address {
+
+.my-address .address-info-select .add-address {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  line-height: 30px;
+  /* line-height: 30px; */
 }
-.address-body .add-address i {
-  font-size: 30px;
-  padding-top: 50px;
+.my-address .address-info-select .add-address i {
+  font-size: 25px;
+  /* padding-top: 50px; */
   text-align: center;
 }
 /* 选择地址CSS END */
