@@ -1,23 +1,9 @@
 <template>
   <div id="details">
     <!-- 头部 -->
-    <div class="page-header">
-      <div class="title">
-        <p>{{productDetails.name}}</p>
-        <div class="list">
-          <!-- <ul>
-            <li>
-              <router-link to>概述</router-link>
-            </li>
-            <li>
-              <router-link to>参数</router-link>
-            </li>
-            <li>
-              <router-link to>用户评价</router-link>
-            </li>
-          </ul> -->
-        </div>
-      </div>
+  
+    <div class="title">
+      <p>{{productDetails.name}}</p>
     </div>
     <!-- 头部END -->
 
@@ -44,7 +30,12 @@
       <div class="content">
         <h1 class="name">{{productDetails.name}}</h1>
         <p class="intro">{{productDetails.introduction}}</p>
+        
+        <div class="customer-service">
         <p class="store">官方自营</p>
+          <el-button icon="el-icon-headset" @click="showCustomerService">官方客服</el-button>
+        </div>
+        
         <div class="price">
           <span>{{productDetails.specialPrice}}元</span>
           <span
@@ -64,7 +55,7 @@
           <p class="price-sum">总计 : {{productDetails.specialPrice}}元</p>
         </div>
         <!-- 内容区底部按钮 -->
-        <div class="button">
+        <div class="button-list">
           <el-button class="shop-cart" :disabled="dis" @click="addShoppingCart">加入购物车</el-button>
           <el-button class="like" @click="addCollect">喜欢</el-button>
         </div>
@@ -86,6 +77,20 @@
           </ul>
         </div>
       </div>
+
+      <!-- 客服窗口 -->
+      <div class="chat-window">
+        <el-drawer
+          title="我是标题"
+          size="45%"
+          :visible.sync="showChatWindow"
+          :with-header="false">
+          <div>
+            <CustomerService></CustomerService>
+          </div>
+        </el-drawer>
+      </div>
+      
       <!-- 右侧内容区END -->
     </div>
     <!-- 主要内容END -->
@@ -94,11 +99,14 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 
+import CustomerService from "@/views/shop/CustomerService.vue";
+
 import { getDetail, addCart, addCollection} from '@/api/product'
 
 import { getCart } from '@/api/shoppingCart'
 
 export default {
+  components: { CustomerService },
   computed: {
     ...mapGetters([
       'token'
@@ -109,7 +117,10 @@ export default {
       dis: false, // 控制“加入购物车按钮是否可用”
       productId: "", // 商品id
       productDetails: "", // 商品详细信息
-      productPicture: "" // 商品图片
+      productPicture: "", // 商品图片
+
+      // 客服聊天窗
+      showChatWindow: false,
     };
   },
   // 通过路由获取商品id
@@ -132,37 +143,22 @@ export default {
   },
   methods: {
     ...mapActions(["unshiftShoppingCart", "addShoppingCartNum"]),
+
+    // 展示客服聊天框
+    showCustomerService(){
+      this.showChatWindow = true
+    },
+
+
     // 获取商品详细信息
     getDetails(id) {
-      // this.$axios
-      //   .post("/api/product/getDetails", {
-      //     productId: val
-      //   })
-      //   .then(res => {
-      //     this.productDetails = res.data.Product[0];
-      //   })
-      //   .catch(err => {
-      //     return Promise.reject(err);
-      //   });
       getDetail(id).then((res)=>{
         this.productDetails = res.data;
         this.productPicture = res.data.images;
       })
 
     },
-    // 获取商品图片
-    // getDetailsPicture(val) {
-    //   this.$axios
-    //     .post("/api/product/getDetailsPicture", {
-    //       productId: val
-    //     })
-    //     .then(res => {
-    //       this.productPicture = res.data.ProductPicture;
-    //     })
-    //     .catch(err => {
-    //       return Promise.reject(err);
-    //     });
-    // },
+   
     // 加入购物车
     addShoppingCart() {
       // 判断是否登录,没有登录则显示登录组件
@@ -171,39 +167,7 @@ export default {
         this.$router.push({ path: '/login' })
         return;
       }
-      // if (!this.$store.getters.getUser) {
-      //   this.$store.dispatch("setShowLogin", true);
-      //   return;
-      // }
-      // this.$axios
-      //   .post("/api/user/shoppingCart/addShoppingCart", {
-      //     user_id: this.$store.getters.getUser.user_id,
-      //     product_id: this.productId
-      //   })
-      //   .then(res => {
-      //     switch (res.data.code) {
-      //       case "001":
-      //         // 新加入购物车成功
-      //         this.unshiftShoppingCart(res.data.shoppingCartData[0]);
-      //         this.notifySucceed(res.data.msg);
-      //         break;
-      //       case "002":
-      //         // 该商品已经在购物车，数量+1
-      //         this.addShoppingCartNum(this.productId);
-      //         this.notifySucceed(res.data.msg);
-      //         break;
-      //       case "003":
-      //         // 商品数量达到限购数量
-      //         this.dis = true;
-      //         this.notifyError(res.data.msg);
-      //         break;
-      //       default:
-      //         this.notifyError(res.data.msg);
-      //     }
-      //   })
-      //   .catch(err => {
-      //     return Promise.reject(err);
-      //   });
+     
       addCart(this.productId).then((res)=>{
         if(res.code == 200){
           this.notifySucceed("添加成功");
@@ -242,42 +206,19 @@ export default {
 </script>
 <style>
 /* 头部CSS */
-#details .page-header {
-  height: 64px;
-  margin-top: 20px;
-  z-index: 4;
-  background: #fff;
-  border-bottom: 1px solid #e0e0e0;
-  -webkit-box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.07);
-  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.07);
-}
-#details .page-header .title {
+
+#details .title {
   width: 1225px;
   height: 64px;
   line-height: 64px;
-  font-size: 18px;
+  font-size: 24px;
   font-weight: 400;
   color: #212121;
   margin: 0 auto;
 }
-#details .page-header .title p {
-  float: left;
-}
-#details .page-header .title .list {
-  height: 64px;
-  float: right;
-}
-#details .page-header .title .list li {
-  float: left;
-  margin-left: 20px;
-}
-#details .page-header .title .list li a {
-  font-size: 14px;
-  color: #616161;
-}
-#details .page-header .title .list li a:hover {
-  font-size: 14px;
-  color: #ff6700;
+#details .title p {
+  display: flex;
+  margin-top: 20px;
 }
 /* 头部CSS END */
 
@@ -285,7 +226,7 @@ export default {
 #details .main {
   width: 1225px;
   height: 560px;
-  padding-top: 30px;
+  padding-top: 10px;
   margin: 0 auto;
 }
 #details .main .block {
@@ -297,7 +238,9 @@ export default {
   background-color: rgba(163, 163, 163, 0.8);
 }
 #details .main .content {
-  float: left;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
   margin-left: 25px;
   width: 640px;
 }
@@ -307,6 +250,10 @@ export default {
   font-size: 24px;
   font-weight: normal;
   color: #212121;
+}
+#details .main .content .customer-service {
+  display: flex;
+  justify-content: space-between;
 }
 #details .main .content .intro {
   color: #b0b0b0;
@@ -350,11 +297,11 @@ export default {
   font-size: 24px;
   padding-top: 20px;
 }
-#details .main .content .button {
+#details .main .content .button-list {
   height: 55px;
   margin: 10px 0 20px 0;
 }
-#details .main .content .button .el-button {
+#details .main .content .button-list .el-button {
   float: left;
   height: 55px;
   font-size: 16px;
@@ -362,20 +309,20 @@ export default {
   border: none;
   text-align: center;
 }
-#details .main .content .button .shop-cart {
-  width: 340px;
+#details .main .content .button-list .shop-cart {
+  width: 260px;
   background-color: #ff6700;
 }
-#details .main .content .button .shop-cart:hover {
+#details .main .content .button-list .shop-cart:hover {
   background-color: #f25807;
 }
 
-#details .main .content .button .like {
+#details .main .content .button-list .like {
   width: 260px;
   margin-left: 40px;
   background-color: #b0b0b0;
 }
-#details .main .content .button .like:hover {
+#details .main .content .button-list .like:hover {
   background-color: #757575;
 }
 #details .main .content .pro-policy li {

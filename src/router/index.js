@@ -158,6 +158,13 @@ const routes = [
     component: () => import('@/views/user/Profile'),
     meta: { title: '用户主页' }
   },
+  // 用户消息
+  {
+    name: 'user',
+    path: '/member/:username/message',
+    component: () => import('@/components/Chat/index'),
+    meta: { title: '用户主页' }
+  },
   // 用户设置
   {
     name: 'user-setting',

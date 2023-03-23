@@ -6,7 +6,7 @@
     >
       <template slot="brand">
         <b-navbar-item tag="div">
-          <img :src="doubaoImg" alt="logo">
+          <img :src="petenImg" alt="logo">
         </b-navbar-item>
 
         <b-navbar-item
@@ -115,6 +115,12 @@
           >
             ⚙ 设置中心
           </b-navbar-item>
+          <b-navbar-item
+            tag="router-link"
+            :to="{ path: `/member/${user.username}/message` }"
+          >
+            ✉ 消息
+          </b-navbar-item>
           <hr class="dropdown-divider">
           <b-navbar-item
             tag="a"
@@ -137,7 +143,7 @@ export default {
   data() {
     return {
       logoUrl: require('@/assets/logo.png'),
-      doubaoImg: require('@/assets/image/doubao.png'),
+      petenImg: require('@/assets/image/peten.png'),
       searchKey: '',
       darkMode: false
     }
