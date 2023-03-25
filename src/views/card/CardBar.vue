@@ -7,7 +7,11 @@
     <tip-card />
 
     <!--资源推介-->
-    <PromotionCard />
+    <!-- <PromotionCard /> -->
+
+    <!-- 用户推荐 -->
+    <UserRecommendations />
+
   </section>
 </template>
 
@@ -16,9 +20,11 @@ import TipCard from '@/views/card/Tip'
 import PromotionCard from '@/views/card/Promotion'
 import LoginWelcome from '@/views/card/LoginWelcome'
 
+import UserRecommendations from '@/views/card/UserRecommendations'
+
 export default {
   name: 'CardBar',
-  components: { LoginWelcome, PromotionCard, TipCard }
+  components: { LoginWelcome, PromotionCard, TipCard, UserRecommendations }
 }
 </script>
 
