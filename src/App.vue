@@ -11,9 +11,9 @@
         <router-view :key="this.$route.fullPath"></router-view>
     </div>
 
-    <div>
+    <!-- <div>
       <Footer></Footer>
-    </div>
+    </div> -->
   </div>
 </template>
 

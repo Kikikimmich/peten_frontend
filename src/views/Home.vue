@@ -2,8 +2,9 @@
   <div>
     <!-- <div class="box">🔔 {{ billboard.content }}</div> -->
     <div class="columns">
-      <div class="column is-three-quarters">
+      <div class="content-list">
         <TopicList></TopicList>
+        <ArticleList></ArticleList>
       </div>
       <div class="column">
         <CardBar></CardBar>
@@ -17,11 +18,14 @@ import { getBillboard } from "@/api/billboard";
 import CardBar from "@/views/card/CardBar"
 import PostList from '@/views/post/Index'
 
-import ArticleList from '@/views/article/Index'
+import ArticleList from '@/views/article/ArticleList.vue'
+
+import TopicList from '@/views/article/Index.vue'
+
 
 export default {
   name: "Home",
-  components: {CardBar, TopicList: ArticleList},
+  components: {CardBar, TopicList, ArticleList},
   data() {
     return {
       billboard: {
@@ -42,3 +46,9 @@ export default {
   },
 };
 </script>
+
+<style>
+.content-list {
+ width: 76%;
+}
+</style>
