@@ -53,7 +53,7 @@ const routes = [
   {
     name: "hospital",
     path: "/hospital",
-    component: () => import("@/views/hospital/Index"),
+    component: () => import("@/views/hospital/IndexV2"),
     meta: { 
       title: "健康",
       // shopHeaderShow: true

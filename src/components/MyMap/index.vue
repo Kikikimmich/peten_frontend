@@ -72,6 +72,8 @@ export default {
                             // onComplete(result)
                             this.myPosition = result
                             this.setMyPosition(result)
+
+                            console.log("位置", result)
                         }
                     });
                     this.map.addControl(geolocation)
