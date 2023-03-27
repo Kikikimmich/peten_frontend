@@ -36,33 +36,17 @@
 
                 <el-tab-pane label="关注" name="subscribe">
                     <div class="infinite-list-wrapper" style="overflow:auto">
-                        <div class="list" v-infinite-scroll="load" infinite-scroll-disabled="disabled"
-                            style="display: flex; justify-content: space-between; flex-direction:row ;flex-wrap: wrap;">
-                            <!-- <li v-for="i in count" class="list-item">{{ i }}</li> -->
-                            <div v-for="(item, index) in articleList" :key="index" class="list-item" style=";">
-                                <ContentCard :content=item></ContentCard>
-                            </div>
-                        </div>
-                        <div style="display: flex; justify-content: space-evenly;">
+                        <Follow></Follow>
+                        <!-- <div style="display: flex; justify-content: space-evenly;">
                             <p v-if="loading">加载中...</p>
                             <p v-if="noMore">没有更多了</p>
-                        </div>
+                        </div> -->
                     </div>
                 </el-tab-pane>
 
                 <el-tab-pane label="圈子" name="group">
                     <div class="infinite-list-wrapper" style="overflow:auto">
-                        <div class="list" v-infinite-scroll="load" infinite-scroll-disabled="disabled"
-                            style="display: flex; justify-content: space-between; flex-direction:row ;flex-wrap: wrap;">
-                            <!-- <li v-for="i in count" class="list-item">{{ i }}</li> -->
-                            <div v-for="(item, index) in articleList" :key="index" class="list-item" style=";">
-                                <ContentCard :content=item></ContentCard>
-                            </div>
-                        </div>
-                        <div style="display: flex; justify-content: space-evenly;">
-                            <p v-if="loading">加载中...</p>
-                            <p v-if="noMore">没有更多了</p>
-                        </div>
+                        <Group></Group>
                     </div>
                 </el-tab-pane>
 
@@ -77,9 +61,13 @@ import { getList } from '@/api/article'
 
 import ContentCard from '@/components/ContentCard/index.vue'
 
+import Group from '@/views/content/group/Group.vue'
+
+import Follow from '@/views/content/follow/Follow.vue'
+
 export default {
     name: 'ArticleList',
-    components: { ContentCard },
+    components: { ContentCard, Group, Follow },
     data() {
         return {
 

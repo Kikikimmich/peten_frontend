@@ -57,7 +57,7 @@
                     class="tag-input"
                     type="text"
                     v-model="form.tags"
-                    placeholder="添加标签"
+                    placeholder="添加标签（示例：#标签）"
                   />
                 </div>
               </ul>
