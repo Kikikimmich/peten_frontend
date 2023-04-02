@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="mb-5" v-show="$route.meta.headerShow">
+    <div class="mb-8" v-show="$route.meta.headerShow">
       <Header></Header>
     </div>
     <div v-show="$route.meta.shopHeaderShow">

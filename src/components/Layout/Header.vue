@@ -49,8 +49,8 @@
             <b-input
               v-model="searchKey"
               class="s_input"
-              width="80%"
-              placeholder="搜索帖子、标签和用户"
+              width="100%"
+              placeholder="输入搜索内容"
               rounded
               clearable
               @keyup.enter.native="search()"
@@ -66,7 +66,7 @@
           </b-field>
         </b-navbar-item>
 
-        <b-navbar-item tag="div">
+        <!-- <b-navbar-item tag="div">
           <b-switch
             v-model="darkMode"
             passive-type="is-warning"
@@ -74,7 +74,7 @@
           >
             {{ darkMode ? "夜" : "日" }}
           </b-switch>
-        </b-navbar-item>
+        </b-navbar-item> -->
 
         <b-navbar-item
           v-if="token == null || token === ''"
@@ -209,8 +209,8 @@ export default {
 </script>
 
 <style scoped>
-input {
+/* input {
   width: 80%;
   height: 86%;
-}
+} */
 </style>

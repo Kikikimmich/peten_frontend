@@ -187,6 +187,14 @@ const routes = [
   },
 
 
+  // 搜索结果
+  {
+    name: 'search-result',
+    path: '/search/result',
+    component: () => import('@/views/content/search/SearchResult'),
+    // meta: { title: '设置', requireAuth: true }
+  },
+
   // 全部圈子
   {
     name: 'group-all',

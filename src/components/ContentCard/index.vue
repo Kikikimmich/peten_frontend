@@ -22,12 +22,12 @@
 
                 <div
                     style="margin-top: 5px; font-size: large; font-weight: 600; white-space: normal; max-width: 280px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
-                    <span>{{ content.title }}</span>
+                    <span v-html="content.title"></span>
                 </div>
             </div>
 
             <div @click="searchAuthor(content.id)" style="cursor: pointer">
-                <i class="el-icon-user"> {{ content.auther }} · {{ content.postTime }}</i>
+                <i class="el-icon-user"> {{ content.author }} · {{ content.postTime }}</i>
             </div>
         </el-card>
 
@@ -44,6 +44,8 @@ export default {
     data() {
         return {
             currentDate: new Date(),
+
+            title: '<span style="color: red">666</span>'
 
             // 内容管理器
             // example

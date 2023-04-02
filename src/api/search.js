@@ -1,14 +1,14 @@
 import request from '@/utils/request'
 
 // 关键词检索
-export function searchByKeyword(query) {
+export function search(keyword, page, pageSize) {
   return request({
-    url: `/search`,
+    url: `/search/content`,
     method: 'get',
     params: {
-      keyword: query.keyword,
-      pageNum: query.pageNum,
-      pageSize: query.pageSize
+      keyword: keyword,
+      page: page,
+      pageSize: pageSize
     }
   })
 }
