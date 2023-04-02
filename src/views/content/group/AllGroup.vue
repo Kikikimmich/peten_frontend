@@ -1,133 +1,24 @@
 <template>
-    <div>
+    <div style="margin: 0% auto; width: 85%;">
 
-        <el-card :body-style="{ padding: '0px' }" style="display: flex;">
-           
-            <div style="height: 20px; ">
-                <span style="margin-left: 10px; padding-top: 10px; display: block; font-size: large; font-weight: 600;">❤我的关注</span>         
-            </div>
-            <el-divider></el-divider>
-            <div class="group-list">
-                <div class="group-item" v-for="item, index in group" :key="item.id">
-                    <div @click="searchGroup(item.id)"
-                        style="width: 80px; height: 100px; text-align: center;  muargin-left: 20px; cursor: pointer">
-                        <img :src="item.cover" style="border-radius: 50%; width: 80px; height: 80px;">
-                        <span>{{ item.name }}</span>
-                    </div>
-                </div>
-                <div class="group-item">
-                    <div @click="showMore"
-                        style="width: 80px; height: 100px; text-align: center; margin-left: 20px; cursor: pointer">
-                        <div class="el-icon-arrow-down"
-                            style="background-color: #f5f5f5; border-radius: 50%; width: 80px; height: 80px;"></div>
-                        <span>展开</span>
-                    </div>
-                </div>
+        <el-card>
+
+            <div style="display: flex; flex-direction: column; ">
+                <GroupCard :group-list="group" :type="'❤我的关注'"></GroupCard>
+
+
+                <GroupCard :group-list="group" :type="'🔥热门圈子'"></GroupCard>
+
+                <GroupCard :group-list="group" :type="'狗狗'"></GroupCard>
+
+                <GroupCard :group-list="group" :type="'猫猫'"></GroupCard>
+
+                <GroupCard :group-list="group" :type="'其他'"></GroupCard>
+
             </div>
 
         </el-card>
 
-
-        <el-card :body-style="{ padding: '0px' }" style="display: flex;">
-            <span style="margin-left: 10px;">热门圈子</span>
-            <div>
-                <el-divider></el-divider>
-            </div>
-            <div class="group-list">
-                <div class="group-item" v-for="item, index in group" :key="item.id">
-                    <div @click="searchGroup(item.id)"
-                        style="width: 80px; height: 100px; text-align: center;  margin-left: 20px; cursor: pointer">
-                        <img :src="item.cover" style="border-radius: 50%; width: 80px; height: 80px;">
-                        <span>{{ item.name }}</span>
-                    </div>
-                </div>
-                <div class="group-item">
-                    <div @click="showMore"
-                        style="width: 80px; height: 100px; text-align: center; margin-left: 20px; cursor: pointer">
-                        <div class="el-icon-arrow-down"
-                            style="background-color: #f5f5f5; border-radius: 50%; width: 80px; height: 80px;"></div>
-                        <span>展开</span>
-                    </div>
-                </div>
-            </div>
-
-        </el-card>
-
-
-        <el-card :body-style="{ padding: '0px' }" style="display: flex;">
-            <span style="margin-left: 10px;">狗狗</span>
-            <div>
-                <el-divider></el-divider>
-            </div>
-            <div class="group-list">
-                <div class="group-item" v-for="item, index in group" :key="item.id">
-                    <div @click="searchGroup(item.id)"
-                        style="width: 80px; height: 100px; text-align: center;  margin-left: 20px; cursor: pointer">
-                        <img :src="item.cover" style="border-radius: 50%; width: 80px; height: 80px;">
-                        <span>{{ item.name }}</span>
-                    </div>
-                </div>
-                <div class="group-item">
-                    <div @click="showMore"
-                        style="width: 80px; height: 100px; text-align: center; margin-left: 20px; cursor: pointer">
-                        <div class="el-icon-arrow-down"
-                            style="background-color: #f5f5f5; border-radius: 50%; width: 80px; height: 80px;"></div>
-                        <span>展开</span>
-                    </div>
-                </div>
-            </div>
-
-        </el-card>
-
-        <el-card :body-style="{ padding: '0px' }" style="display: flex;">
-            <span style="margin-left: 10px;">猫猫</span>
-            <div>
-                <el-divider></el-divider>
-            </div>
-            <div class="group-list">
-                <div class="group-item" v-for="item, index in group" :key="item.id">
-                    <div @click="searchGroup(item.id)"
-                        style="width: 80px; height: 100px; text-align: center;  margin-left: 20px; cursor: pointer">
-                        <img :src="item.cover" style="border-radius: 50%; width: 80px; height: 80px;">
-                        <span>{{ item.name }}</span>
-                    </div>
-                </div>
-                <div class="group-item">
-                    <div @click="showMore"
-                        style="width: 80px; height: 100px; text-align: center; margin-left: 20px; cursor: pointer">
-                        <div class="el-icon-arrow-down"
-                            style="background-color: #f5f5f5; border-radius: 50%; width: 80px; height: 80px;"></div>
-                        <span>展开</span>
-                    </div>
-                </div>
-            </div>
-
-        </el-card>
-
-        <el-card :body-style="{ padding: '0px' }" style="display: flex;">
-            <span style="margin-left: 10px;">其他</span>
-            <div>
-                <el-divider></el-divider>
-            </div>
-            <div class="group-list">
-                <div class="group-item" v-for="item, index in group" :key="item.id">
-                    <div @click="searchGroup(item.id)"
-                        style="width: 80px; height: 100px; text-align: center;  margin-left: 20px; cursor: pointer">
-                        <img :src="item.cover" style="border-radius: 50%; width: 80px; height: 80px;">
-                        <span>{{ item.name }}</span>
-                    </div>
-                </div>
-                <div class="group-item">
-                    <div @click="showMore"
-                        style="width: 80px; height: 100px; text-align: center; margin-left: 20px; cursor: pointer">
-                        <div class="el-icon-arrow-down"
-                            style="background-color: #f5f5f5; border-radius: 50%; width: 80px; height: 80px;"></div>
-                        <span>展开</span>
-                    </div>
-                </div>
-            </div>
-
-        </el-card>
 
 
     </div>
@@ -137,12 +28,12 @@
  
 <script>
 
-import PostCard from '@/views/content/group/PostCard.vue'
+import GroupCard from '@/views/content/group/GroupCard.vue'
 
 export default {
     name: 'Group',
 
-    components: { PostCard },
+    components: { GroupCard },
 
     data() {
         return {
@@ -194,6 +85,22 @@ export default {
                 id: '5',
                 cover: 'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
                 name: '英短',
+            }, {
+                id: '6',
+                cover: 'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
+                name: '英短',
+            }, {
+                id: '7',
+                cover: 'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
+                name: '英短',
+            }, {
+                id: '8',
+                cover: 'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
+                name: '英短',
+            }, {
+                id: '9',
+                cover: 'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
+                name: '英短',
             }],
 
             // 内容管理器
@@ -242,26 +149,4 @@ export default {
 }
 </script>
 
-<style>
-.group-list {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    grid-gap: 10px;
-}
-
-.group-item {
-    /* background-color: #f2f2f2; */
-    padding: 10px;
-    /* font-size: 30px; */
-    text-align: center;
-}
-
-.el-icon-arrow-down {
-    font-size: 30px;
-    /* text-align: center;
-   justify-content: center;
-   display: flex; */
-    /* padding: 50%; */
-    padding: 30%;
-}
-</style>
+<style></style>

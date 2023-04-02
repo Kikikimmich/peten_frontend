@@ -4,25 +4,25 @@
         <el-card :body-style="{ padding: '0px' }" style="display: flex;">
            
            <div style="height: 20px; ">
-               <span style="margin-left: 10px; padding-top: 10px; display: block; font-size: large; font-weight: 600;">❤u我的关注</span>         
+               <span style="margin-left: 10px; padding-top: 10px; display: block; font-size: large; font-weight: 600;">{{ type }}</span>         
            </div>
            <el-divider></el-divider>
            <div class="group-list">
-               <div class="group-item" v-for="item, index in group" :key="item.id">
+               <div class="group-item" v-for="item, index in groupList" :key="item.id">
                    <div @click="searchGroup(item.id)"
                        style="width: 80px; height: 100px; text-align: center;  muargin-left: 20px; cursor: pointer">
                        <img :src="item.cover" style="border-radius: 50%; width: 80px; height: 80px;">
                        <span>{{ item.name }}</span>
                    </div>
                </div>
-               <div class="group-item">
+               <!-- <div class="group-item">
                    <div @click="showMore"
                        style="width: 80px; height: 100px; text-align: center; margin-left: 20px; cursor: pointer">
                        <div class="el-icon-arrow-down"
                            style="background-color: #f5f5f5; border-radius: 50%; width: 80px; height: 80px;"></div>
                        <span>展开</span>
                    </div>
-               </div>
+               </div> -->
            </div>
 
        </el-card>
@@ -41,34 +41,35 @@ export default {
     name: 'Group',
 
     components: { PostCard },
+    props: ['groupList', 'type'],
 
     data() {
         return {
             currentDate: new Date(),
 
             // top five
-            group: [{
-                id: '1',
-                cover: 'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
-                name: '柴犬',
-            },
-            {
-                id: '2',
-                cover: 'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
-                name: '金毛',
-            }, {
-                id: '3',
-                cover: 'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
-                name: '阿拉斯加',
-            }, {
-                id: '4',
-                cover: 'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
-                name: '拉布拉多',
-            }, {
-                id: '5',
-                cover: 'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
-                name: '英短',
-            }],
+            // group: [{
+            //     id: '1',
+            //     cover: 'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
+            //     name: '柴犬',
+            // },
+            // {
+            //     id: '2',
+            //     cover: 'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
+            //     name: '金毛',
+            // }, {
+            //     id: '3',
+            //     cover: 'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
+            //     name: '阿拉斯加',
+            // }, {
+            //     id: '4',
+            //     cover: 'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
+            //     name: '拉布拉多',
+            // }, {
+            //     id: '5',
+            //     cover: 'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
+            //     name: '英短',
+            // }],
 
             // 内容管理器
             // example
@@ -89,17 +90,12 @@ export default {
     },
     methods: {
 
-        // 关注
-        handleFollow(index) { },
-
-        // 更多帖子
-        showMore() {
-            alert("更多")
-        },
-
         // 根据圈子搜索帖子
         searchGroup(id) {
-            alert(id)
+            // alert(id)
+            this.$router.push({
+                path: '/group/detail/' + id
+            })
         },
 
 
@@ -125,7 +121,7 @@ export default {
 
 .group-item {
     /* background-color: #f2f2f2; */
-    padding: 10px;
+    padding: 29px;
     /* font-size: 30px; */
     text-align: center;
 }

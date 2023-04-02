@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="app-content">
         <el-card shadow="never">
             <el-tabs v-model="activeName" @tab-click="handleClick">
                 <el-tab-pane label="推荐" name="recommend">
@@ -52,6 +52,12 @@
 
             </el-tabs>
         </el-card>
+
+        <el-backtop target=".app-content">
+            <i class="el-icon-caret-top"></i>
+        </el-backtop>
+
+
     </div>
 </template>
   
@@ -126,4 +132,11 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+
+.app-content {
+    height: 100vh;
+    overflow-x: hidden;
+}
+
+</style>

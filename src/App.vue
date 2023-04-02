@@ -21,10 +21,11 @@
 import Header from "@/components/Layout/Header";
 import ShopHeader from "@/components/Layout/ShopHeader";
 import Footer from "@/components/Layout/Footer";
+import { RouterView } from "vue-router";
 
 export default {
   name: "App",
-  components: { Header, Footer, ShopHeader },
+  components: { Header, Footer, ShopHeader, RouterView },
 };
 </script>
 

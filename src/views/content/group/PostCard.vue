@@ -19,9 +19,9 @@
                     </div>
                 </div>
                 <!-- 内容 -->
-                <div style="margin-top: 10px;">
+                <div style="margin-top: 10px; cursor: pointer" @click="viewDetail(post.id)" >
                     <div>
-                        <span>{{ post.title }}</span>
+                        <span style="font-size: 18px;">{{ post.title }}</span>
                     </div>
                     <div style="white-space: normal; max-width: 95%; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
                         <span>{{ post.content }}</span>
@@ -75,6 +75,13 @@ export default {
     methods: {
         // 关注
         handleFollow(id) { },
+
+        viewDetail(id){
+            // alert()
+            this.$router.push({
+                path:'/post/detail/' + id
+            })            
+        }
     }
 }
 </script>

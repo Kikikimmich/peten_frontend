@@ -10,7 +10,9 @@ const routes = [
     component: () => import("@/views/Home"),
     meta:{
       headerShow: true,
-      footerShow: true
+      footerShow: true,
+
+      keepAlive: true
     }
   },
   {
@@ -183,6 +185,37 @@ const routes = [
     redirect: "/404",
     hidden: true,
   },
+
+
+  // 全部圈子
+  {
+    name: 'group-all',
+    path: '/group/all',
+    component: () => import('@/views/content/group/AllGroup'),
+    // meta: { title: '设置', requireAuth: true }
+  },
+  // 圈子详情
+  {
+    name: 'group-detail',
+    path: '/group/detail/:id',
+    component: () => import('@/views/content/group/GroupDetail'),
+  },
+
+  // 帖子详情
+  {
+    name: 'post-detail',
+    path: '/post/detail/:id',
+    component: () => import('@/views/content/group/PostDetail'),
+  },
+
+  // 发布帖子
+  {
+    name: 'group-post',
+    path: '/group/post',
+    component: () => import('@/views/content/group/Editor'),
+  }
+
+
 ];
 
 const originalPush = VueRouter.prototype.push;

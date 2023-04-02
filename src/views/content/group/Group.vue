@@ -3,15 +3,15 @@
 
         <el-card :body-style="{ padding: '0px' }" style="display: flex;">
             <span style="margin-left: 10px;">热门圈子</span>
-            <div class="group-list">
-                <div class="group-item" v-for="item, index in group" :key="item.id">
+            <div class="hot-group-list">
+                <div class="hot-group-item" v-for="item, index in group" :key="item.id">
                     <div @click="searchGroup(item.id)"
                         style="width: 80px; height: 100px; text-align: center;  margin-left: 20px; cursor: pointer">
                         <img :src="item.cover" style="border-radius: 50%; width: 80px; height: 80px;">
                         <span>{{ item.name }}</span>
                     </div>
                 </div>
-                <div class="group-item">
+                <div class="hot-group-item">
                     <div @click="showMore"
                         style="width: 80px; height: 100px; text-align: center; margin-left: 20px; cursor: pointer">
                         <div class="el-icon-more"
@@ -25,16 +25,15 @@
 
 
         <!-- 帖子 -->
-        <el-card>
-            <div class="top-post-list">
-                <div class="top-post-item" v-for="item, index in 10" :key="item.id"
-                    style="display: flex; flex-direction: column;">
-                    
-                    <PostCard :post="post[0]"></PostCard>
-                   
-                </div>
+
+        <div class="top-post-list">
+            <div class="top-post-item" v-for="item, index in 10" :key="item.id"
+                style="display: flex; flex-direction: column;">
+
+                <PostCard :post="post[0]"></PostCard>
+
             </div>
-        </el-card>
+        </div>
 
     </div>
 </template>
@@ -47,7 +46,7 @@ import PostCard from '@/views/content/group/PostCard.vue'
 
 export default {
     name: 'Group',
-    
+
     components: { PostCard },
 
     data() {
@@ -126,7 +125,11 @@ export default {
 
         // 更多帖子
         showMore() {
-            alert("更多")
+            // alert("更多")
+            //跳转页面
+            this.$router.push({
+                path: '/group/all'
+            })
         },
 
         // 根据圈子搜索帖子
@@ -149,13 +152,13 @@ export default {
 </script>
 
 <style>
-.group-list {
+.hot-group-list {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     grid-gap: 10px;
 }
 
-.group-item {
+.hot-group-item {
     /* background-color: #f2f2f2; */
     padding: 10px;
     /* font-size: 30px; */

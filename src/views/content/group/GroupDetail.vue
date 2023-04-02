@@ -1,5 +1,5 @@
 <template>
-    <div style="width: 840px; margin: 0px auto;">
+    <div class="app-group-detail" style="width: 840px; margin: 0px auto;">
 
         <el-card :body-style="{ padding: '0px' }" style="display: flex;position: relative;">
 
@@ -13,18 +13,16 @@
                     <div style="display: flex;">
                         <img :src="group.cover" style="border-radius: 50%; width: 80px; height: 80px;">
                         <div style="margin: auto 0px; transform: translateY(12px);">
-                            <div
-                                style="font-size: 25px; text-align: center; margin-left: 10px;">
-                                {{group.name }}
-                                
+                            <div style="font-size: 25px; text-align: center; margin-left: 10px;">
+                                {{ group.name }}
+
                             </div>
-                            <div
-                                style="font-size: 15px;  text-align: center;transform: translateX(20px);">
+                            <div style="font-size: 15px;  text-align: center;transform: translateX(20px);">
                                 {{ group.slogan }}</div>
                         </div>
 
                     </div>
-                    
+
                     <div style="display: flex; flex-direction: column; justify-content: center;">
                         <el-button v-if="!post.follow" type="success" @click="handleFollow(post.id)" round>+关注</el-button>
                         <el-button v-else round class="follow-button">已关注</el-button>
@@ -46,6 +44,24 @@
                 </div>
             </div>
         </el-card>
+
+
+        <div>
+            <!-- 发帖 -->
+            <div @click="doPost"
+                style="position: fixed; bottom: 120px; right: 300px; width: 50px; height: 50px; border-radius: 50%; text-align: center; line-height: 50px; background-color: rgb(103, 194, 58); color: #f2f2f2; cursor: pointer">
+                发帖</div>
+            <!-- 刷新 -->
+            <div @click="doFlush" class="el-icon-refresh"
+                style="position: fixed; bottom: 60px; right: 300px; width: 50px; height: 50px; border-radius: 50%; text-align: center; line-height: 50px; background-color: rgb(103, 194, 58); color: #f2f2f2; font-size: 25px; cursor: pointer">
+            </div>
+        </div>
+
+        <el-backtop target=".app-group-detail">
+            <i class="el-icon-caret-top"></i>
+        </el-backtop>
+
+
 
     </div>
 </template>
@@ -119,51 +135,29 @@ export default {
     methods: {
 
         // 关注
-        handleFollow(id) { },
-
-        // 更多帖子
-        showMore() {
-            alert("更多")
+        handleFollow(id) {
+            alert("关注")
         },
 
-        // 根据圈子搜索帖子
-        searchGroup(id) {
-            alert(id)
+        // 发帖
+        doPost() {
+            this.$router.push({
+                path: '/group/post'
+            })
         },
 
-
-        viewContent(id) {
-            // this.$router.push({
-            //     path: '/article/' + id
-            // })
-        },
-
-        searchAuthor(id) {
-            alert("author")
+        // 刷新
+        doFlush() {
+            alert("刷新")
         }
+
     }
 }
 </script>
 
 <style>
-.group-list {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    grid-gap: 10px;
+.app-group-detail {
+    height: 100vh;
+    overflow-x: hidden;
 }
-
-.group-item {
-    /* background-color: #f2f2f2; */
-    padding: 10px;
-    /* font-size: 30px; */
-    text-align: center;
-}
-
-.el-icon-more {
-    font-size: 30px;
-    /* text-align: center;
-   justify-content: center;
-   display: flex; */
-    /* padding: 50%; */
-    padding: 30%;
-}</style>
+</style>
