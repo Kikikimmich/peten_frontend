@@ -134,7 +134,10 @@ export default {
 
         // 根据圈子搜索帖子
         searchGroup(id) {
-            alert(id)
+            // alert(id)
+            this.$router.push({
+                path: '/group/detail/' + id
+            })
         },
 
 

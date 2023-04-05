@@ -89,7 +89,6 @@ export default {
                 totalRow: 0,
 
             },
-            tab: 'latest'
         }
     },
     computed: {
@@ -102,13 +101,29 @@ export default {
         }
     },
     created() {
-        this.init(this.tab)
+        this.init()
     },
+
+    mounted(){
+     let name = sessionStorage.getItem('currentTab') 
+     // 判断是否存在currentTab，即tab页之前是否被点击切换到别的页面
+     if(name){
+       this.activeName = name
+      }
+    },
+    beforeRouteLeave(to, from, next){
+      // 在离开此路由之后清除保存的状态（我的需求是只需要在当前tab页操作刷新保存状态，路由切换之后不需要保存）
+      // 根据个人需求决定清除的时间
+       sessionStorage.removeItem('currentTab')
+       next()
+    },
+
     methods: {
 
         handleClick(tab) {
             this.page.page = 1
-            this.init(tab.name)
+            this.init()
+            sessionStorage.setItem('currentTab', tab.name)
         },
 
         load() {
@@ -119,8 +134,8 @@ export default {
             }, 2000)
         },
 
-        init(tab) {
-            getList(this.page.page, this.page.pageSize, tab).then((res) => {
+        init() {
+            getList(this.page.page, this.page.pageSize, "").then((res) => {
                 let data = res.data;
                 this.page.page = data.pageInfo.page
                 this.page.totalRow = data.pageInfo.totalRow

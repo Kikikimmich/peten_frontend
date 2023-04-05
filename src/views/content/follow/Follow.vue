@@ -25,14 +25,35 @@
 
         <!-- 帖子 -->
         <el-card>
-            <!-- <div class="top-post-list">
-                <div class="top-post-item" v-for="item, index in 10" :key="item.id"
-                    style="display: flex; flex-direction: column;">
-                    
-                    <PostCard :post="post[0]"></PostCard>
-                   
-                </div>
-            </div> -->
+            <el-tabs v-model="activeName" @tab-click="handleClick">
+                <el-tab-pane label="图文" name="content">
+                    <div class="infinite-list-wrapper" style="overflow:auto">
+                        <div class="list" v-infinite-scroll="load" infinite-scroll-disabled="disabled"
+                            style="display: flex; flex-direction: column;">
+                            <!-- <li v-for="i in count" class="list-item">{{ i }}</li> -->
+                            <div v-for="(item, index) in articleList" :key="index" class="list-item" style=";">
+                                <ContentCard :content=item></ContentCard>
+                            </div>
+                        </div>
+                        <div style="display: flex; justify-content: space-evenly;">
+                            <p v-if="loading">加载中...</p>
+                            <p v-if="noMore">没有更多了</p>
+                        </div>
+                    </div>
+                </el-tab-pane>
+
+                <el-tab-pane label="动态" name="post">
+                    <div class="follow-post-list">
+                        <div class="top-post-item" v-for="item, index in 10" :key="item.id"
+                            style="display: flex; flex-direction: column;">
+
+                            <PostCard :post="post" :hasFollow="true"></PostCard>
+
+                        </div>
+                    </div>
+                </el-tab-pane>
+
+            </el-tabs>
         </el-card>
 
     </div>
@@ -43,14 +64,33 @@
 <script>
 
 import PostCard from '@/views/content/group/PostCard.vue'
+import ContentCard from '@/views/content/follow/Content.vue'
+
+import { getList } from '@/api/content'
+
 
 export default {
     name: 'Follow',
-    
-    components: { PostCard },
+
+    components: { PostCard, ContentCard },
 
     data() {
         return {
+
+
+            activeName: 'content',
+
+            count: 10,
+            loading: false,
+
+            articleList: [],
+            page: {
+                page: 1,
+                pageSize: 10,
+                totalRow: 0,
+
+            },
+
             currentDate: new Date(),
 
             // top five
@@ -78,9 +118,81 @@ export default {
             }],
 
 
+            post: {
+                id: '1',
+                title: "哈哈哈笑死了",
+                images: [
+                    'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
+                    'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
+                    'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png'
+                ],
+                author: {
+                    id: '11',
+                    name: '小番茄',
+                    avatar: 'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
+                    follow: false
+                },
+                comments: '6',
+                like: '2',
+                group: {
+                    id: '111',
+                    name: '柴犬圈'
+                },
+                content: '今天狗子拉丝了哈哈哈哈'
+            },
+
         };
     },
+    created() {
+        this.init()
+    },
+    computed: {
+        noMore() {
+            return this.count >= 20
+        },
+        disabled() {
+            return this.loading || this.noMore
+            // return true
+        }
+    },
+    mounted() {
+        let name = sessionStorage.getItem('follow-currentTab')
+        // 判断是否存在currentTab，即tab页之前是否被点击切换到别的页面
+        if (name) {
+            this.activeName = name
+        }
+    },
+    beforeRouteLeave(to, from, next) {
+        // 在离开此路由之后清除保存的状态（我的需求是只需要在当前tab页操作刷新保存状态，路由切换之后不需要保存）
+        // 根据个人需求决定清除的时间
+        sessionStorage.removeItem('follow-currentTab')
+        next()
+    },
     methods: {
+
+        handleClick(tab) {
+            this.page.page = 1
+            sessionStorage.setItem('follow-currentTab', tab.name)
+        },
+
+        init() {
+            getList(this.page.page, this.page.pageSize, "").then((res) => {
+                let data = res.data;
+                this.page.page = data.pageInfo.page
+                this.page.totalRow = data.pageInfo.totalRow
+                this.page.pageSize = data.pageInfo.pageSize
+                this.articleList = data.list
+            })
+        },
+
+
+        load() {
+            this.loading = true
+            setTimeout(() => {
+                this.count += 2
+                this.loading = false
+            }, 2000)
+        },
 
         // 关注
         handleFollow(index) { },
@@ -130,4 +242,5 @@ export default {
    display: flex; */
     /* padding: 50%; */
     padding: 30%;
-}</style>
+}
+</style>

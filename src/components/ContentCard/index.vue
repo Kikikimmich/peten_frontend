@@ -1,11 +1,5 @@
 <template>
     <div>
-    <!-- <el-row>
-            <el-col :span="8" v-for="(o, index) in 2" :key="o" :offset="index > 0 ? 2 : 0">
-                
-            </el-col>
-                        </el-row> -->
-
 
         <el-card :body-style="{ padding: '0px' }" style="display: flex; flex-direction: column;">
 
@@ -66,12 +60,14 @@ export default {
     },
     methods: {
         viewContent(id) {
-            this.$router.push({
+
+            let { href } = this.$router.resolve({
                 path: '/article/' + id
             })
+            window.open(href, '_blank');
         },
 
-        searchAuthor(id){
+        searchAuthor(id) {
             alert("author")
         }
     }

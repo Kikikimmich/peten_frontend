@@ -12,18 +12,19 @@
                             style="display: flex; margin-left: 10px; justify-content: center; align-items: center;">{{
                                 post.author.name }}</span>
                     </div>
-                    <div class="follow-button" style="">
+                    <div class="follow-button" v-show="!hasFollow">
                         <el-button v-if="!post.author.follow" type="success" @click="handleFollow(post.author.id)"
                             round>+关注</el-button>
                         <el-button v-else round class="follow-button">已关注</el-button>
                     </div>
                 </div>
                 <!-- 内容 -->
-                <div style="margin-top: 10px; cursor: pointer" @click="viewDetail(post.id)" >
+                <div style="margin-top: 10px; cursor: pointer" @click="viewDetail(post.id)">
                     <div>
                         <span style="font-size: 18px;">{{ post.title }}</span>
                     </div>
-                    <div style="white-space: normal; max-width: 95%; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
+                    <div
+                        style="white-space: normal; max-width: 95%; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
                         <span>{{ post.content }}</span>
                     </div>
                     <div style="margin-top: 10px; display: grid; grid-template-columns: repeat(3, 1fr); grid-gap: 10px;">
@@ -42,7 +43,7 @@
 
 export default {
     name: 'PostCard',
-    props: ['post'],
+    props: ['post', 'hasFollow'],
     data() {
         return {
             // post: {
@@ -76,11 +77,15 @@ export default {
         // 关注
         handleFollow(id) { },
 
-        viewDetail(id){
+        viewDetail(id) {
             // alert()
-            this.$router.push({
-                path:'/post/detail/' + id
-            })            
+            // this.$router.push({
+            //     path: '/post/detail/' + id
+            // })
+            let { href } = this.$router.resolve({
+                path: '/post/detail/' + id
+            })
+            window.open(href, '_blank');
         }
     }
 }

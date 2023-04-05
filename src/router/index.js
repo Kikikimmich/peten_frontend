@@ -4,6 +4,8 @@ import VueRouter from "vue-router";
 Vue.use(VueRouter);
 
 const routes = [
+
+  // 首页
   {
     path: "/",
     name: "Home",
@@ -15,6 +17,56 @@ const routes = [
       keepAlive: true
     }
   },
+  // 首页-推荐
+  {
+    path: "/recommend",
+    name: "home-recommend",
+    component: () => import("@/views/content/ContentList.vue"),
+    meta:{
+      headerShow: true,
+      footerShow: true,
+
+      keepAlive: true
+    }
+  },
+  // 首页-热门
+  {
+    path: "/hot",
+    name: "home-hot",
+    component: () => import("@/views/content/ContentList.vue"),
+    meta:{
+      headerShow: true,
+      footerShow: true,
+
+      keepAlive: true
+    }
+  },
+  // 首页-关注
+  {
+    path: "/follow",
+    name: "home-follow",
+    component: () => import("@/views/content/follow/Follow.vue"),
+    meta:{
+      headerShow: true,
+      footerShow: true,
+
+      keepAlive: true
+    }
+  },
+
+  // 首页-圈子
+  {
+    path: "/group",
+    name: "home-group",
+    component: () => import("@/views/content/group/Group.vue"),
+    meta:{
+      headerShow: true,
+      footerShow: true,
+
+      keepAlive: true
+    }
+  },
+  
   {
     path: "/register",
     name: "register",
