@@ -1,5 +1,26 @@
 import request from '@/utils/request'
 
+// 获取我的关注发布（文章）
+export function getMyFollowPost() {
+  return request(({
+    url: `/user/get-my-follow-post`,
+    method: 'get'
+  }))
+}
+
+
+
+
+// 获取我的关注
+export function getMyFollow() {
+  return request(({
+    url: `/user/get-my-follow`,
+    method: 'get'
+  }))
+}
+
+
+
 // 关注
 export function follow(id) {
   return request(({

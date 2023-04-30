@@ -6,16 +6,29 @@
                 <div class="follow-item" v-for="item, index in follow" :key="item.id">
                     <div @click="searchUp(item.id)"
                         style="width: 80px; height: 100px; text-align: center;  margin-left: 20px; cursor: pointer">
-                        <img :src="item.cover" style="border-radius: 50%; width: 80px; height: 80px;">
-                        <span>{{ item.name }}</span>
+                        <!-- <img :src="item.cover" style="border-radius: 50%; width: 80px; height: 80px;"> -->
+                        <img v-if="item.cover != undefined && item.cover != null && item.cover !=''" :src="item.cover" alt="user avatar" class="user-avatar" />
+                        <div v-else style="border-radius: 50%; display: inline-block;
+                            width: 50px;
+                            height: 50px;
+                            background-color: #ccc;
+                            color: #fff;
+                            border-radius: 50%;
+                            text-align: center;
+                            line-height: 50px;
+                            font-size: 24px;
+                            margin-right: 0px;">
+                            {{item.name.charAt(0)}}
+                        </div>
+                        <span style="display: block;">{{ item.name }}</span>
                     </div>
                 </div>
                 <div class="follow-item">
                     <div @click="showMore"
                         style="width: 80px; height: 100px; text-align: center; margin-left: 20px; cursor: pointer">
                         <div class="el-icon-more"
-                            style="background-color: #f5f5f5; border-radius: 50%; width: 80px; height: 80px;"></div>
-                        <span>更多</span>
+                            style="background-color: #f5f5f5; border-radius: 50%; width: 50px; height: 50px;"></div>
+                        <span style="display: block;">更多</span>
                     </div>
                 </div>
             </div>
@@ -68,6 +81,10 @@ import ContentCard from '@/views/content/follow/Content.vue'
 
 import { getList } from '@/api/content'
 
+import { getMyFollow } from '@/api/follow'
+
+import { getMyFollowPost } from '@/api/follow'
+
 
 export default {
     name: 'Follow',
@@ -94,28 +111,13 @@ export default {
             currentDate: new Date(),
 
             // top five
-            follow: [{
-                id: '1',
-                cover: 'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
-                name: '小柴犬',
-            },
-            {
-                id: '2',
-                cover: 'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
-                name: '小鸡毛',
-            }, {
-                id: '3',
-                cover: 'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
-                name: '阿拉斯加',
-            }, {
-                id: '4',
-                cover: 'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
-                name: '拉布拉多',
-            }, {
-                id: '5',
-                cover: 'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
-                name: '英短',
-            }],
+            follow: [
+            // {
+            //     id: '1',
+            //     cover: 'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
+            //     name: '小柴犬',
+            // },
+           ],
 
 
             post: {
@@ -176,13 +178,27 @@ export default {
         },
 
         init() {
-            getList(this.page.page, this.page.pageSize, "").then((res) => {
-                let data = res.data;
-                this.page.page = data.pageInfo.page
-                this.page.totalRow = data.pageInfo.totalRow
-                this.page.pageSize = data.pageInfo.pageSize
-                this.articleList = data.list
+            // getList(this.page.page, this.page.pageSize, "").then((res) => {
+            //     let data = res.data;
+            //     this.page.page = data.pageInfo.page
+            //     this.page.totalRow = data.pageInfo.totalRow
+            //     this.page.pageSize = data.pageInfo.pageSize
+            //     this.articleList = data.list
+            // })
+
+            getMyFollow().then(res=>{
+                if (res.data.length > 5) {
+                    this.follow = res.data.slice(0, 5)
+                }else{
+                    this.follow = res.data
+                }
             })
+
+            getMyFollowPost().then(res=>{
+                this.articleList = res.data
+            })
+
+
         },
 
 
@@ -241,6 +257,6 @@ export default {
    justify-content: center;
    display: flex; */
     /* padding: 50%; */
-    padding: 30%;
+    padding: 15%;
 }
 </style>

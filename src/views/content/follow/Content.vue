@@ -7,12 +7,25 @@
             <div @click="searchAuthor(content.id)"
                 style="display: flex; justify-content: space-between; margin-top: 20px; cursor: pointer">
                 <div class="user-info" style="display: flex; margin-left: 10px;">
-                    <img :src="content.author.avatar" alt="user avatar" class="user-avatar"
-                        style="border-radius: 50%; height: 50px; width: 50px;" />
+                    <!-- <img :src="content.authorInfo.avatar" alt="user avatar" class="user-avatar"
+                        style="border-radius: 50%; height: 50px; width: 50px;" /> -->
+                        <img v-if="content.authorInfo.avatar != undefined && content.authorInfo.avatar != null && content.authorInfo.avatar !=''" :src="avatar" alt="user avatar" class="user-avatar" />
+                            <div v-else style="border-radius: 50%; display: inline-block;
+                                width: 50px;
+                                height: 50px;
+                                background-color: #ccc;
+                                color: #fff;
+                                border-radius: 50%;
+                                text-align: center;
+                                line-height: 50px;
+                                font-size: 24px;
+                                margin-right: 0px;">
+                                {{content.authorInfo.name.charAt(0)}}
+                            </div>
                     <div
                         style="display: flex; flex-direction: column; margin-left: 10px; justify-content: center; align-items: left;">
-                        <span class="user-name" style="display: block;">{{ content.author.name }}</span>
-                        <span style="display: block;">{{ content.postTime }}</span>
+                        <span class="user-name" style="display: block;">{{ content.authorInfo.name }}</span>
+                        <span style="display: block;">{{ dayjs(content.createTime ).format('YYYY/MM/DD HH:mm:ss') }}</span>
                     </div>
 
                 </div>

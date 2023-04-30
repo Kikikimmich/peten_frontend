@@ -8,7 +8,7 @@
                     <img :src="content.cover" class="image">
                     <div class="content-info"
                         style="position: absolute; left: 0; bottom: 0; margin-left: 10px; color: aliceblue;">
-                        <i :class="content.type == 1 ? 'el-icon-document' : 'el-icon-video-play'" style=""> {{ content.hits
+                        <i :class="content.type == 1 ? 'el-icon-video-play' : 'el-icon-document'" style=""> {{ content.views
                         }}</i>
                         <i class="el-icon-chat-line-square" style="margin-left: 12px;"> {{ content.comments }}</i>
                     </div>
@@ -21,7 +21,7 @@
             </div>
 
             <div @click="searchAuthor(content.id)" style="cursor: pointer">
-                <i class="el-icon-user"> {{ content.author }} · {{ content.postTime }}</i>
+                <i class="el-icon-user"> {{ content.authorInfo.name }} · {{ content.createTime }}</i>
             </div>
         </el-card>
 

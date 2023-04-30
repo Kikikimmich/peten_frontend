@@ -1,6 +1,19 @@
 import request from '@/utils/request'
 
 
+// 文章推荐
+export function recommend(id) {
+  return request({
+    url: `/article/recommend`,
+    method: 'get',
+    params: {
+      id: id
+    }
+  })
+}
+
+
+
 // 文章详情
 export function getDetail(id) {
     return request({

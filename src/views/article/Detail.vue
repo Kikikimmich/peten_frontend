@@ -15,9 +15,9 @@
           <div class="has-text-grey is-size-7 mt-3">
             <span>{{ dayjs(article.createTime).format('YYYY/MM/DD HH:mm:ss') }}</span>
             <el-divider direction="vertical" />
-            <span>发布者：{{article.author }}</span>
+            <span>发布者：{{article.authorInfo.name }}</span>
             <el-divider direction="vertical" />
-            <span>查看：{{ detail.view }}</span>
+            <span>查看：{{ article.views }}</span>
           </div>
         </div>
 
@@ -78,6 +78,13 @@
         :topic-id="topic.id"
       />
     </div>
+
+
+    <!-- 推荐 -->
+    <div style="margin-top: 10px;">
+        <ContentRecommendations></ContentRecommendations>
+    </div>
+
   </div>
 </template>
 
@@ -88,10 +95,11 @@ import { mapGetters } from 'vuex'
 import ArticleComment from '@/components/Comment/CommentsV2'
 import MarkDown from "@/components/MarkDown";
 
+import ContentRecommendations from "@/views/content/recommend/RecommendCard.vue";
 
 export default {
   name: 'TopicDetail',
-  components: {ArticleComment, MarkDown},
+  components: {ArticleComment, MarkDown, ContentRecommendations},
   computed: {
     ...mapGetters([
       'token','user'
@@ -108,7 +116,7 @@ export default {
         createTime:''
       },
       detail:{
-        view: 0
+        views: 0
       },
       userInfo:{
         id: ''

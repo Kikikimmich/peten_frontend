@@ -14,7 +14,7 @@
                                 content.title }}</span>
                     </div>
                     <div style="">
-                        <span style="color: #0f0f0f;">{{ content.auther }}</span>
+                        <span style="color: #0f0f0f;">{{ content.authorInfo.name }}</span>
                     </div>
                 </div>
             </div>
@@ -23,12 +23,12 @@
 </template>
   
 <script>
-//   import { getList } from '@/api/promote'
+  import { recommend } from '@/api/article'
 
 import { th } from 'date-fns/locale';
 
 export default {
-    name: 'UserRecommendations',
+    name: 'ContentRecommendations',
     data() {
         return {
 
@@ -82,9 +82,19 @@ export default {
         }
     },
     created() {
-
+        this.fetchRecommend()
     },
     methods: {
+
+        fetchRecommend(){
+           let id =  this.$route.params.id;
+           console.log(this.$route.params)
+           if (id != null && id !=''){
+                recommend(id).then((res)=>{
+                    this.contentList = res.data
+                })
+           }
+        },
 
         // 换一批
         refresh() {

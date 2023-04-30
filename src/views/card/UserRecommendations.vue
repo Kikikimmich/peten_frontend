@@ -9,10 +9,22 @@
                 <li v-for="user, index in users" :key="user.id">
                     <div class="user-item">
                         <div class="user-info pointer" @click="showuserInfo(index)">
-                            <img :src="avatar" alt="user avatar" class="user-avatar" />
-                            <span class="user-name">{{ user.userName }}</span>
+                            <img v-if="user.avatar !=''" :src="avatar" alt="user avatar" class="user-avatar" />
+                            <div v-else style="border-radius: 50%; display: inline-block;
+                                width: 50px;
+                                height: 50px;
+                                background-color: #ccc;
+                                color: #fff;
+                                border-radius: 50%;
+                                text-align: center;
+                                line-height: 50px;
+                                font-size: 24px;
+                                margin-right: 0px;">
+                                {{user.name.charAt(0)}}
+                            </div>
+                            <span class="user-name">{{ user.name }}</span>
                         </div>
-                        <div class="follow-button">
+                        <div class="follow-button" style="margin-right: 0px;">
                             <el-button v-if="!user.follow" type="success" @click="handleFollow(index)" round >+关注</el-button>
                             <el-button v-else round class="follow-button">已关注</el-button>
                         </div>
@@ -26,8 +38,11 @@
   
 <script>
 //   import { getList } from '@/api/promote'
+import { recommend } from '@/api/user'
 
 import { th } from 'date-fns/locale';
+
+import { mapGetters } from "vuex";
 
 export default {
     name: 'UserRecommendations',
@@ -36,27 +51,27 @@ export default {
             avatar: require('@/assets/logo.png'),
             users: [{
                 id: '1',
-                userName: 'user1',
+                name: 'user1',
                 avatar: '',
                 follow: false,
             }, {
                 id: '2',
-                userName: 'user2',
+                name: 'user2',
                 avatar: '',
                 follow: false,
             }, {
                 id: '3',
-                userName: 'user3',
+                name: 'user3',
                 avatar: '',
                 follow: false,
             }, {
                 id: '4',
-                userName: 'user4',
+                name: 'user4',
                 avatar: '',
                 follow: false,
             }, {
                 id: '5',
-                userName: 'user5',
+                name: 'user5',
                 avatar: '',
                 follow: false,
             }],
@@ -65,9 +80,18 @@ export default {
         }
     },
     created() {
-        
+        this.fetchRecommendUser()
+    },
+    computed: {
+            ...mapGetters(["userInfo"]),
     },
     methods: {
+        
+        fetchRecommendUser(){
+            recommend().then((res) => {
+                this.users = res.data
+            })
+        },
 
         // 换一批
         refresh(){
