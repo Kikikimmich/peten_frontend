@@ -33,3 +33,11 @@ export function getList(page, pageSize, query) {
     params: { page: page, pageSize: pageSize, query: query }
   }))
 }
+
+// 热门列表
+export function getTopHot() {
+  return request(({
+    url: '/article/get-top-hot',
+    method: 'get',
+  }))
+}

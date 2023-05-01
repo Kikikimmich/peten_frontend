@@ -6,7 +6,7 @@
             </el-input>
         </div>
 
-        <el-tabs type="border-card" style="">
+        <el-tabs type="border-card" style="margin-top: 10px;">
             <!-- 内容搜索 -->
             <el-tab-pane label="综合">
                 <div v-if="hasResult" style="height: 1300px; margin-top: 10px; display: grid; grid-template-columns: repeat(3, 1fr); grid-gap: 10px;">
@@ -71,9 +71,14 @@ export default {
         }
     },
     created() {
-
+        this.init()
     },
     methods: {
+
+        init(){
+            this.keyword = this.$route.query.key
+        },
+
         doSearch(){
             search(this.keyword, 1, 20).then((res)=> {
                 console.log(res);

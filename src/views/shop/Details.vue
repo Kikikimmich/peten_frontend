@@ -29,7 +29,7 @@
       <!-- 右侧内容区 -->
       <div class="content">
         <h1 class="name">{{productDetails.name}}</h1>
-        <p class="intro">{{productDetails.introduction}}</p>
+        <!-- <p class="intro">{{productDetails.introduction}}</p> -->
         
         <div class="customer-service">
         <p class="store">官方自营</p>
@@ -254,10 +254,11 @@ export default {
 #details .main .content .customer-service {
   display: flex;
   justify-content: space-between;
+  margin-top: 30px;
 }
 #details .main .content .intro {
   color: #b0b0b0;
-  padding-top: 10px;
+  padding-top: 15px;
 }
 #details .main .content .store {
   color: #ff6700;

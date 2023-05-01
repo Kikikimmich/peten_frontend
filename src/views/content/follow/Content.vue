@@ -48,8 +48,8 @@
                     </div>
                     <div
                         style="position: absolute; bottom: 0; color: black;">
-                        <i :class="content.type == 1 ? 'el-icon-document' : 'el-icon-video-play'" style=""> {{
-                            content.hits }}</i>
+                        <i :class="content.type == 1 ? 'el-icon-video-play' : 'el-icon-document'" style=""> {{
+                            content.views }}</i>
                         <i class="el-icon-chat-line-square" style="margin-left: 12px;"> {{ content.comments }}</i>
                     </div>
                 </div>

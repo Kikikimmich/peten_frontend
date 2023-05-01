@@ -4,16 +4,16 @@
         <el-card>
 
             <div style="display: flex; flex-direction: column; ">
-                <GroupCard :group-list="group" :type="'❤我的关注'"></GroupCard>
+                <GroupCard :group-list="myFollow" :type="'❤我的关注'"></GroupCard>
 
 
-                <GroupCard :group-list="group" :type="'🔥热门圈子'"></GroupCard>
+                <GroupCard :group-list="hot" :type="'🔥热门圈子'"></GroupCard>
 
-                <GroupCard :group-list="group" :type="'狗狗'"></GroupCard>
+                <GroupCard :group-list="dog" :type="'狗狗'"></GroupCard>
 
-                <GroupCard :group-list="group" :type="'猫猫'"></GroupCard>
+                <GroupCard :group-list="cat" :type="'猫猫'"></GroupCard>
 
-                <GroupCard :group-list="group" :type="'其他'"></GroupCard>
+                <GroupCard :group-list="others" :type="'其他'"></GroupCard>
 
             </div>
 
@@ -29,6 +29,8 @@
 <script>
 
 import GroupCard from '@/views/content/group/GroupCard.vue'
+
+import { getAllGroup } from '@/api/group'
 
 export default {
     name: 'Group',
@@ -63,6 +65,12 @@ export default {
                 content: '今天狗子拉丝了哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈'
             }],
 
+            allGroup: {},
+            myFollow: [],
+            hot: [],
+            dog: [],
+            cat: [],
+            others: [],
             // top five
             group: [{
                 id: '1',
@@ -120,7 +128,26 @@ export default {
 
         };
     },
+    created() {
+        this.init()
+    },
     methods: {
+
+        init() {
+            getAllGroup().then(res => {
+                let map = res.data.reduce((acc, obj) => {
+                    acc.set(obj.name, obj.groups)
+                    return acc;
+                }, new Map());
+                console.log(map)
+                this.myFollow = map.get("关注")
+                this.hot = map.get("热门")
+                this.cat = map.get("猫猫")
+                this.dog = map.get("狗狗")
+                this.others = map.get("其他")
+                console.log(this.others)
+            })
+        },
 
         // 关注
         handleFollow(index) { },

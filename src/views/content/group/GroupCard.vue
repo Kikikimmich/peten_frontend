@@ -10,9 +10,22 @@
            <div class="group-list">
                <div class="group-item" v-for="item, index in groupList" :key="item.id">
                    <div @click="searchGroup(item.id)"
-                       style="width: 80px; height: 100px; text-align: center;  muargin-left: 20px; cursor: pointer">
-                       <img :src="item.cover" style="border-radius: 50%; width: 80px; height: 80px;">
-                       <span>{{ item.name }}</span>
+                       style="width: 80px; height: 60px; text-align: center;  muargin-left: 20px; cursor: pointer">
+                       <!-- <img :src="item.cover" style="border-radius: 50%; width: 80px; height: 80px;"> -->
+                       <img v-if="item.cover !=''" :src="item.cover" alt="item cover" style="border-radius: 50%; width: 60px; height: 60px;"/>
+                        <div v-else style="border-radius: 50%; display: inline-block;
+                            width: 60px;
+                            height: 60px;
+                            background-color: #ccc;
+                            color: #fff;
+                            border-radius: 50%;
+                            text-align: center;
+                            line-height: 60px;
+                            font-size: 24px;
+                            margin-right: 0px;">
+                            {{item.name.charAt(0)}}
+                        </div>
+                       <span style="display: block;">{{ item.name }}</span>
                    </div>
                </div>
                <!-- <div class="group-item">

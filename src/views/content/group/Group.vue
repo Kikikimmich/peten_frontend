@@ -4,19 +4,32 @@
         <el-card :body-style="{ padding: '0px' }" style="display: flex;">
             <span style="margin-left: 10px;">热门圈子</span>
             <div class="hot-group-list">
-                <div class="hot-group-item" v-for="item, index in group" :key="item.id">
+                <div class="hot-group-item" v-for="item, index in topGroup" :key="item.id">
                     <div @click="searchGroup(item.id)"
                         style="width: 80px; height: 100px; text-align: center;  margin-left: 20px; cursor: pointer">
-                        <img :src="item.cover" style="border-radius: 50%; width: 80px; height: 80px;">
-                        <span>{{ item.name }}</span>
+                        <!-- <img :src="item.cover" style="border-radius: 50%; width: 80px; height: 80px;"> -->
+                        <img v-if="item.cover !=''" :src="item.cover" alt="item cover" style="border-radius: 50%; width: 50px; height: 50px;"/>
+                        <div v-else style="border-radius: 50%; display: inline-block;
+                            width: 50px;
+                            height: 50px;
+                            background-color: #ccc;
+                            color: #fff;
+                            border-radius: 50%;
+                            text-align: center;
+                            line-height: 50px;
+                            font-size: 24px;
+                            margin-right: 0px;">
+                            {{item.name.charAt(0)}}
+                        </div>
+                        <span style="display: block;">{{ item.name }}</span>
                     </div>
                 </div>
                 <div class="hot-group-item">
                     <div @click="showMore"
                         style="width: 80px; height: 100px; text-align: center; margin-left: 20px; cursor: pointer">
                         <div class="el-icon-more"
-                            style="background-color: #f5f5f5; border-radius: 50%; width: 80px; height: 80px;"></div>
-                        <span>更多</span>
+                            style="background-color: #f5f5f5; border-radius: 50%; width: 50px; height: 50px;"></div>
+                        <span style="display: block;">更多</span>
                     </div>
                 </div>
             </div>
@@ -41,6 +54,8 @@
 
  
 <script>
+
+import { getTopGroup } from '@/api/group'
 
 import PostCard from '@/views/content/group/PostCard.vue'
 
@@ -78,6 +93,7 @@ export default {
             }],
 
             // top five
+            topGroup: [],
             group: [{
                 id: '1',
                 cover: 'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
@@ -118,7 +134,16 @@ export default {
 
         };
     },
+    created(){
+        this.init()
+    },
     methods: {
+
+        init(){
+            getTopGroup().then(res =>{
+                this.topGroup = res.data
+            })
+        },
 
         // 关注
         handleFollow(index) { },

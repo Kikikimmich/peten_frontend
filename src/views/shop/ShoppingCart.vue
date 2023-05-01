@@ -39,7 +39,7 @@
               <img :src="item.productCover" />
             </router-link>
           </div>
-          <div class="pro-name">
+          <div class="pro-name" style="display: inline-flex; width: 350px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
             <router-link
               :to="{ path: '/shop/goods/details', query: {productId:item.productId} }"
             >{{item.productName}}</router-link>

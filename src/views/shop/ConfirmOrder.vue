@@ -171,7 +171,8 @@ export default {
             productId: goods.productId,
             count: goods.count,
             // 后续优化，用浮点数在计算是个危险的事情
-            totalCost: goods.specialPrice * goods.count
+            totalCost: goods.specialPrice * goods.count,
+            unitPrice: goods.specialPrice 
           }
           orderList.push(temp)
           cartIdList.push(goods.id)

@@ -23,7 +23,7 @@
                         <div class="list" v-infinite-scroll="load" infinite-scroll-disabled="disabled"
                             style="display: flex; justify-content: space-between; flex-direction:row ;flex-wrap: wrap;">
                             <!-- <li v-for="i in count" class="list-item">{{ i }}</li> -->
-                            <div v-for="(item, index) in articleList" :key="index" class="list-item" style=";">
+                            <div v-for="(item, index) in topArticleList" :key="index" class="list-item" style=";">
                                 <ContentCard :content=item></ContentCard>
                             </div>
                         </div>
@@ -63,7 +63,7 @@
   
 <script>
 
-import { getList } from '@/api/article'
+import { getList, getTopHot } from '@/api/article'
 
 import ContentCard from '@/components/ContentCard/index.vue'
 
@@ -83,6 +83,10 @@ export default {
             loading: false,
 
             articleList: [],
+
+            // 热门
+            topArticleList:[],
+
             page: {
                 page: 1,
                 pageSize: 10,
@@ -141,6 +145,10 @@ export default {
                 this.page.totalRow = data.pageInfo.totalRow
                 this.page.pageSize = data.pageInfo.pageSize
                 this.articleList = data.list
+            })
+
+            getTopHot().then(res =>{
+                this.topArticleList = res.data
             })
         },
     }

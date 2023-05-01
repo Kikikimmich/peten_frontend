@@ -202,7 +202,11 @@ export default {
         })
         return false
       }
-      this.$router.push({ path: '/search?key=' + this.searchKey })
+      // this.$router.push({ path: '/search?key=' + this.searchKey })
+      let { href } = this.$router.resolve({
+                path: '/search/result?key=' + this.searchKey 
+            })
+            window.open(href, '_blank');
     }
   }
 }

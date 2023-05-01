@@ -84,16 +84,16 @@ export default {
             // 热门帖子
             post: [{
                 id: '1',
-                title: "哈哈哈笑死了",
+                title: "我真的太喜欢狗子了",
                 images: [
-                    'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
-                    'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
-                    'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png'
+                    'http://localhost:9111/image/498b2448-692e-485a-9aff-2ef18684ab42觉.png',
+                    'http://localhost:9111/image/b7a67056-8f8b-465a-b9a8-5ad7dfc3a032狗.png',
+                    'http://localhost:9111/image/656eda10-3202-47ca-88a7-3122fd1eeaf0基.png'
                 ],
                 author: {
                     id: '11',
                     name: '小番茄',
-                    avatar: 'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
+                    avatar: 'http://localhost:9111/image/2a210256-1860-4cbc-b02b-c49055a8b871头.png',
                     follow: false
                 },
                 comments: '6',
@@ -102,14 +102,14 @@ export default {
                     id: '111',
                     name: '柴犬圈'
                 },
-                content: '今天狗子拉丝了哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈'
+                content: '狗子是很可爱的动物，它们是人类的忠实伙伴和好朋友。它们不仅可以带给我们快乐和安慰，还可以帮助我们保护家园和生命财产。因此，我们应该尽可能地保护它们，确保它们能够健康、快乐地生活在这个世界上。'
             }],
 
             // top five
             group: {
                 id: '1',
-                cover: 'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
-                background: 'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
+                cover: 'http://localhost:9111/image/2a210256-1860-4cbc-b02b-c49055a8b871头.png',
+                background: 'http://localhost:9111/image/565c8890-9b23-4c94-bb31-df4a59868c82犬.png',
                 name: '柴犬',
                 slogan: '柴犬有脾气',
             },
